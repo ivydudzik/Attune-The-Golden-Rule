@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://evwpj63iljro"]
+
+[ext_resource type="Texture2D" uid="uid://b8o1osxotc6yw" path="res://yellow_body_circle.png" id="1_byfhy"]
+
+[node name="Main" type="Node2D"]
+
+[node name="YellowBodyCircle" type="Sprite2D" parent="."]
+position = Vector2(81, 75)
+texture = ExtResource("1_byfhy")
+
+[node name="YellowBodyCircle2" type="Sprite2D" parent="."]
+position = Vector2(266, 117)
+texture = ExtResource("1_byfhy")
+
+[node name="YellowBodyCircle3" type="Sprite2D" parent="."]
+position = Vector2(226, 353)
+texture = ExtResource("1_byfhy")
