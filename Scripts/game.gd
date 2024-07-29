@@ -8,18 +8,27 @@ extends Node2D
 
 @onready var plays_text := $"UI/Plays Text"
 @onready var swaps_text := $"UI/Swaps Text"
+@onready var infusion_text = $"UI/Infusion Text"
 
-@export var available_plays : int
-@export var available_swaps : int
+@export var plays_per_infusion : int
+@export var swaps_per_infusion : int
+@export var total_infusions : int
+
+@onready var available_plays : int = plays_per_infusion
+@onready var available_swaps : int = swaps_per_infusion
+@onready var available_infusions : int = total_infusions
+
+const board_dimensions : Vector2i = Vector2i(5, 2)
 
 const METAL : PackedScene = preload("res://Scenes/metal.tscn")
+
+## Utility function to convert card index to board coordinate
+func card_idx_to_coords(index : int, board_width : int) -> Vector2:
+	return Vector2(index % board_width, floor(index / board_width))
 
 func _ready() -> void:
 	for card in hand.get_children():
 		card.connect("card_dropped", drop_card)
-
-	#available_plays = 1
-	#available_swaps = 1
 	update_ui_text()
 
 func toggle_cutscene_mode() -> void:
@@ -39,6 +48,11 @@ func infuse() -> void:
 			continue
 		# Wait for the card activation animations to play before moving on
 		await activate_card(card)
+	# Reset plays and swaps
+	available_plays = plays_per_infusion
+	available_swaps = swaps_per_infusion
+	available_infusions -= 1
+	update_ui_text()
 
 func activate_card(card : Card) -> void:
 	var tween = get_tree().create_tween()
@@ -48,7 +62,8 @@ func activate_card(card : Card) -> void:
 	if card.card_data.effect_type == "Add/Subtract":
 		var metal : Node2D = METAL.instantiate()
 		metal.metal_type = card.card_data.metal_type
-		$"Board Container/Metals Grid Container".add_child(metal)
+		$Metals.add_child(metal)
+		# Move metal to [TEST: MOUSE POSITION]
 		metal.global_position = get_global_mouse_position()
 		
 		#var tween2 = get_tree().create_tween()
@@ -68,10 +83,10 @@ func activate_card(card : Card) -> void:
 	await get_tree().create_timer(0.25).timeout
 	
 
-
 func update_ui_text() -> void:
 	plays_text.text = str(available_plays)
 	swaps_text.text = str(available_swaps)
+	infusion_text.text = str(available_infusions)
 
 func drop_card(card : Control, index : int) -> void:
 	print("Dropping card to slot ", index, ".")
@@ -95,6 +110,10 @@ func move_card(card : Control, index : int) -> void:
 	var old_index : int = card.get_index()
 	if old_index == index: 
 		print("Cannot move card to slot ", index, " from ", old_index, " because it is already there.")
+		card.return_to_drag_start()
+		return
+	if card_idx_to_coords(index, board_dimensions.x).distance_to(card_idx_to_coords(old_index, board_dimensions.x)) > 1:
+		print("Cannot move card to slot ", index, " from ", old_index, " because it is not adjacent.")
 		card.return_to_drag_start()
 		return
 	print("Moving card to slot ", index, " from ", old_index, ".")

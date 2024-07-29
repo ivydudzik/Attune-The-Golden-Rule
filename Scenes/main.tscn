@@ -1,6 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=23 format=3 uid="uid://evwpj63iljro"]
 
-[ext_resource type="Script" path="res://Scripts/main.gd" id="1_5lj0w"]
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
 [ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
 [ext_resource type="Texture2D" uid="uid://fvfaqtq50qbj" path="res://Art/Scribble Dungeons/Double (128px)/Characters/green_character.png" id="2_o7vfo"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
+[ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="11_yl3pw"]
 [ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
 
 [sub_resource type="Resource" id="Resource_jeby8"]
@@ -55,10 +56,11 @@ effect_type = "Add/Subtract"
 font = ExtResource("10_3ws7t")
 font_size = 48
 
-[node name="Main" type="Node2D"]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_5lj0w")
-available_plays = 5
-available_swaps = 3
+plays_per_infusion = 5
+swaps_per_infusion = 3
+total_infusions = 3
 
 [node name="Board Container" type="Control" parent="."]
 layout_mode = 3
@@ -164,19 +166,6 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 90
-
-[node name="Metals Grid Container" type="GridContainer" parent="Board Container"]
-layout_mode = 2
-offset_left = 430.0
-offset_top = 495.0
-offset_right = 1490.0
-offset_bottom = 1070.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 10
 
 [node name="Metals" type="Node2D" parent="."]
 
@@ -343,6 +332,21 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 
+[node name="Infusion" type="Sprite2D" parent="UI"]
+modulate = Color(0.705882, 0.486275, 0.360784, 1)
+position = Vector2(53, 277)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_yl3pw")
+
+[node name="Infusion Text" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 253.0
+offset_right = 191.0
+offset_bottom = 334.0
+text = "1"
+label_settings = SubResource("LabelSettings_oatni")
+
 [node name="Playcard" type="Sprite2D" parent="UI"]
 modulate = Color(0.705882, 0.486275, 0.360784, 1)
 position = Vector2(48.75, 49.25)
@@ -351,10 +355,10 @@ texture = ExtResource("9_vyirb")
 
 [node name="Plays Text" type="Label" parent="UI"]
 layout_mode = 0
-offset_left = 104.75
-offset_top = 31.25
-offset_right = 144.75
-offset_bottom = 112.25
+offset_left = 105.0
+offset_top = 31.0
+offset_right = 194.0
+offset_bottom = 112.0
 text = "1"
 label_settings = SubResource("LabelSettings_oatni")
 
@@ -366,10 +370,10 @@ texture = ExtResource("11_r4mkl")
 
 [node name="Swaps Text" type="Label" parent="UI"]
 layout_mode = 0
-offset_left = 103.75
-offset_top = 135.25
-offset_right = 143.75
-offset_bottom = 216.25
+offset_left = 104.0
+offset_top = 135.0
+offset_right = 189.0
+offset_bottom = 216.0
 text = "1"
 label_settings = SubResource("LabelSettings_oatni")
 
@@ -393,6 +397,18 @@ mouse_filter = 1
 theme_override_fonts/font = ExtResource("10_3ws7t")
 theme_override_font_sizes/font_size = 48
 text = "INFUSE"
+
+[node name="Infusion2" type="Sprite2D" parent="UI/Vertical Container/Infuse Button"]
+modulate = Color(0.658824, 0.294118, 0.34902, 1)
+position = Vector2(-55, 33)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_yl3pw")
+
+[node name="Infusion3" type="Sprite2D" parent="UI/Vertical Container/Infuse Button"]
+modulate = Color(0.658824, 0.294118, 0.34902, 1)
+position = Vector2(309, 35)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_yl3pw")
 
 [node name="H Separator" type="HSeparator" parent="UI/Vertical Container"]
 modulate = Color(1, 1, 1, 0)
