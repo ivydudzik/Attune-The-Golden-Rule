@@ -4,22 +4,48 @@ extends Node2D
 @onready var hand := $"Play Container/Hand Container"
 @onready var board_slots := $"Board Container/Vertical Container/Grid Container"
 
+@onready var plays_text = $"UI/Plays Text"
+@onready var swaps_text = $"UI/Swaps Text"
+
+@export var available_plays : int
+@export var available_swaps : int
+
 func _ready():
 	for card in hand.get_children():
 		card.connect("card_dropped", drop_card)
 
+	#available_plays = 1
+	#available_swaps = 1
+	update_ui_text()
+
+func update_ui_text():
+	plays_text.text = str(available_plays)
+	swaps_text.text = str(available_swaps)
+
 func drop_card(card : Panel, index : int) -> void:
 	print("Dropping card to slot ", index, ".")
 	if card in board.get_children():
+		if available_swaps == 0: 
+			print("Cannot swap card, no more available swaps.")
+			card.return_to_drag_start()
+			return
 		move_card(card, index)
+		available_swaps -= 1
+		update_ui_text()
 	else:
+		if available_plays == 0: 
+			print("Cannot play card, no more available plays.")
+			card.return_to_drag_start()
+			return
 		play_new_card(card, index)
+		available_plays -= 1
+		update_ui_text()
 
 func move_card(card : Panel, index : int) -> void:
 	var displaced_child : Panel = board.get_child(index)
 	var old_index : int = card.get_index()
 	if old_index == index: 
-		print("Cannot move card to slot ", index, " from ", old_index, " because it is already there.") 
+		print("Cannot move card to slot ", index, " from ", old_index, " because it is already there.")
 		card.return_to_drag_start()
 		return
 	print("Moving card to slot ", index, " from ", old_index, ".")

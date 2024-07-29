@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=13 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://card.tscn" id="1_a1c0o"]
@@ -8,9 +8,18 @@
 [ext_resource type="Texture2D" uid="uid://brdd7mhqn4000" path="res://Art/Scribble Dungeons/Double (128px)/Characters/red_character.png" id="4_xygdv"]
 [ext_resource type="Texture2D" uid="uid://8aocr5vch16m" path="res://Art/Scribble Dungeons/Double (128px)/Characters/yellow_character.png" id="5_npm40"]
 [ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://nullcard.tscn" id="6_iowam"]
+[ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
+[ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
+[ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oatni"]
+font = ExtResource("10_3ws7t")
+font_size = 48
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_5lj0w")
+available_plays = 3
+available_swaps = 3
 
 [node name="Board Container" type="Control" parent="."]
 layout_mode = 3
@@ -77,33 +86,40 @@ columns = 5
 
 [node name="Card Slot 1" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 2" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
 
 [node name="Card Slot 3" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 4" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 5" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
 
 [node name="Card Slot 6" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 7" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 8" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="Card Slot 9" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
 
 [node name="Card Slot 10" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
 layout_mode = 2
+slot_type = "Dormant"
 
 [node name="H Separator" type="HSeparator" parent="Board Container/Vertical Container"]
 modulate = Color(1, 1, 1, 0)
@@ -114,15 +130,15 @@ theme_override_constants/separation = 90
 [node name="Metals" type="Node2D" parent="."]
 
 [node name="circle1" type="Sprite2D" parent="Metals"]
-position = Vector2(84, 88)
+position = Vector2(1813, 83)
 texture = ExtResource("2_o7vfo")
 
 [node name="circle5" type="Sprite2D" parent="Metals"]
-position = Vector2(97, 227)
+position = Vector2(1826, 222)
 texture = ExtResource("2_o7vfo")
 
 [node name="circle2" type="Sprite2D" parent="Metals"]
-position = Vector2(1691, 93)
+position = Vector2(1605, 60)
 texture = ExtResource("3_y4m3m")
 
 [node name="circle11" type="Sprite2D" parent="Metals"]
@@ -146,11 +162,11 @@ position = Vector2(1751, 729)
 texture = ExtResource("4_xygdv")
 
 [node name="circle9" type="Sprite2D" parent="Metals"]
-position = Vector2(325, 82)
+position = Vector2(1701, 214)
 texture = ExtResource("4_xygdv")
 
 [node name="circle10" type="Sprite2D" parent="Metals"]
-position = Vector2(231, 150)
+position = Vector2(1807, 399)
 texture = ExtResource("4_xygdv")
 
 [node name="circle4" type="Sprite2D" parent="Metals"]
@@ -259,6 +275,43 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 90
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 54.0
+offset_right = 90.0
+offset_bottom = 94.0
+
+[node name="Playcard" type="Sprite2D" parent="UI"]
+modulate = Color(0.705882, 0.486275, 0.360784, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_vyirb")
+
+[node name="Plays Text" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = -18.0
+offset_right = 96.0
+offset_bottom = 63.0
+text = "1"
+label_settings = SubResource("LabelSettings_oatni")
+
+[node name="Swapcard" type="Sprite2D" parent="UI"]
+modulate = Color(0.707177, 0.487233, 0.360996, 1)
+position = Vector2(14, 116)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_r4mkl")
+
+[node name="Swaps Text" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 86.0
+offset_right = 95.0
+offset_bottom = 167.0
+text = "1"
+label_settings = SubResource("LabelSettings_oatni")
 
 [editable path="Play Container/Hand Container/Card 1"]
 [editable path="Play Container/Hand Container/Card 2"]
