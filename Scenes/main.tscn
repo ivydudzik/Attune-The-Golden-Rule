@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=22 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
+[ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
 
 [sub_resource type="Resource" id="Resource_jeby8"]
 script = ExtResource("9_jh3nf")
@@ -398,5 +399,9 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 820
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_3ab43")
+autoplay = true
 
 [connection signal="pressed" from="UI/Vertical Container/Infuse Button" to="." method="_on_infuse_button_pressed"]

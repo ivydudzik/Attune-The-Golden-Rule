@@ -6,15 +6,15 @@ extends Node2D
 
 @onready var board_slot_count : int = len(board.get_children())
 
-@onready var plays_text = $"UI/Plays Text"
-@onready var swaps_text = $"UI/Swaps Text"
+@onready var plays_text := $"UI/Plays Text"
+@onready var swaps_text := $"UI/Swaps Text"
 
 @export var available_plays : int
 @export var available_swaps : int
 
-const METAL = preload("res://Scenes/metal.tscn")
+const METAL : PackedScene = preload("res://Scenes/metal.tscn")
 
-func _ready():
+func _ready() -> void:
 	for card in hand.get_children():
 		card.connect("card_dropped", drop_card)
 
@@ -22,11 +22,11 @@ func _ready():
 	#available_swaps = 1
 	update_ui_text()
 
-func toggle_cutscene_mode():
+func toggle_cutscene_mode() -> void:
 	## STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
 	pass
 
-func infuse():
+func infuse() -> void:
 	toggle_cutscene_mode()
 	for index in board_slot_count:
 		var card : Control = board.get_child(index)
@@ -40,7 +40,7 @@ func infuse():
 		# Wait for the card activation animations to play before moving on
 		await activate_card(card)
 
-func activate_card(card : Card):
+func activate_card(card : Card) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(card, "scale", Vector2(1.5, 1.5), 0.1).set_trans(Tween.TRANS_CUBIC)
 	await get_tree().create_timer(0.1).timeout
@@ -69,7 +69,7 @@ func activate_card(card : Card):
 	
 
 
-func update_ui_text():
+func update_ui_text() -> void:
 	plays_text.text = str(available_plays)
 	swaps_text.text = str(available_swaps)
 
@@ -81,7 +81,6 @@ func drop_card(card : Control, index : int) -> void:
 			card.return_to_drag_start()
 			return
 		move_card(card, index)
-		available_swaps -= 1
 		update_ui_text()
 	else:
 		if available_plays == 0: 
@@ -89,7 +88,6 @@ func drop_card(card : Control, index : int) -> void:
 			card.return_to_drag_start()
 			return
 		play_new_card(card, index)
-		available_plays -= 1
 		update_ui_text()
 
 func move_card(card : Control, index : int) -> void:
@@ -111,6 +109,8 @@ func move_card(card : Control, index : int) -> void:
 	# Switch cards
 	board.move_child(card, index)
 	board.move_child(displaced_child, old_index)
+	# Subtract 1 from the remaining available swaps
+	available_swaps -= 1
 	
 
 func play_new_card(card : Control, index : int) -> void:
@@ -130,9 +130,11 @@ func play_new_card(card : Control, index : int) -> void:
 		# Make new card look for full slots as well as empty
 		var card_placement_area : Area2D = card.get_child(0).get_child(2)
 		card_placement_area.set_collision_mask_value(4, true)
+		# Subtract 1 from the remaining available plays
+		available_plays -= 1
 	else:
 		print("Not a valid place for card.")
 
 
-func _on_infuse_button_pressed():
+func _on_infuse_button_pressed() -> void:
 	infuse()

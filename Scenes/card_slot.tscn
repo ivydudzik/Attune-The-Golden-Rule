@@ -52,7 +52,6 @@ position = Vector2(100, 140)
 shape = SubResource("RectangleShape2D_x6l28")
 
 [node name="Catalyst Marker" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

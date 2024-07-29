@@ -14,24 +14,24 @@ var drag_start : Vector2
 var offset : Vector2
 var slot : Panel = null
 
-func _ready():
+func _ready() -> void:
 	assert(card_data, "No card data provided for card " + str(get_index()) + " in hand.")
 	$"Card Panel/Label".text = card_data.title
 
 # This card is not a nullcard
-func isNullcard():
+func isNullcard() -> bool:
 	return false
 
-func end_return():
+func end_return() -> void:
 	returning = false
 	
-func return_to_drag_start():
+func return_to_drag_start() ->  void:
 	returning = true
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "global_position", drag_start, 0.25).set_trans(Tween.TRANS_SINE)
 	tween.tween_callback(end_return)
 
-func _process(delta):
+func _process(delta) -> void:
 	if returning:
 		# Set card to default color
 		modulate = "ffffff"
@@ -61,14 +61,14 @@ func _process(delta):
 		# Set card to default color
 		modulate = "ffffff"
 
-func _on_area_mouse_entered():
+func _on_area_mouse_entered() -> void:
 	hovering = true
 
-func _on_area_mouse_exited():
+func _on_area_mouse_exited() -> void:
 	hovering = false
 
-func _on_placement_area_area_entered(area):
+func _on_placement_area_area_entered(area) -> void:
 	slot = area.get_parent()
 
-func _on_placement_area_area_exited(_area):
+func _on_placement_area_area_exited(_area) -> void:
 	slot = null
