@@ -46,16 +46,29 @@ corner_radius_top_right = 10
 corner_radius_bottom_left = 10
 anti_aliasing = false
 
-[node name="Card" type="Panel"]
+[node name="Card" type="Control"]
 custom_minimum_size = Vector2(200, 280)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 280.0
+pivot_offset = Vector2(100, 140)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("1_3pytd")
+
+[node name="Card Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(200, 280)
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -140.0
-offset_right = 50.0
+offset_left = -100.0
+offset_top = -280.0
+offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(100, 140)
@@ -63,9 +76,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_ep02y")
-script = ExtResource("1_3pytd")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="Card Panel"]
 texture_filter = 1
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 1
@@ -86,33 +98,33 @@ label_settings = SubResource("LabelSettings_squht")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Area" type="Area2D" parent="."]
+[node name="Area" type="Area2D" parent="Card Panel"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="Collision Shape" type="CollisionShape2D" parent="Area"]
+[node name="Collision Shape" type="CollisionShape2D" parent="Card Panel/Area"]
 position = Vector2(100, 140)
 shape = SubResource("RectangleShape2D_3og1v")
 
-[node name="Placement Area" type="Area2D" parent="."]
+[node name="Placement Area" type="Area2D" parent="Card Panel"]
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
-[node name="Collision Shape" type="CollisionShape2D" parent="Placement Area"]
+[node name="Collision Shape" type="CollisionShape2D" parent="Card Panel/Placement Area"]
 position = Vector2(100, 140)
 shape = SubResource("RectangleShape2D_e5csf")
 
-[node name="Corner 1" type="Panel" parent="."]
+[node name="Corner 1" type="Panel" parent="Card Panel"]
 layout_mode = 0
 offset_top = 240.0
 offset_right = 40.0
 offset_bottom = 280.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_s8h38")
 
-[node name="Corner 2" type="Panel" parent="."]
+[node name="Corner 2" type="Panel" parent="Card Panel"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -122,7 +134,7 @@ offset_bottom = 40.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_il7we")
 
-[connection signal="mouse_entered" from="Area" to="." method="_on_area_mouse_entered"]
-[connection signal="mouse_exited" from="Area" to="." method="_on_area_mouse_exited"]
-[connection signal="area_entered" from="Placement Area" to="." method="_on_placement_area_area_entered"]
-[connection signal="area_exited" from="Placement Area" to="." method="_on_placement_area_area_exited"]
+[connection signal="mouse_entered" from="Card Panel/Area" to="." method="_on_area_mouse_entered"]
+[connection signal="mouse_exited" from="Card Panel/Area" to="." method="_on_area_mouse_exited"]
+[connection signal="area_entered" from="Card Panel/Placement Area" to="." method="_on_placement_area_area_entered"]
+[connection signal="area_exited" from="Card Panel/Placement Area" to="." method="_on_placement_area_area_exited"]

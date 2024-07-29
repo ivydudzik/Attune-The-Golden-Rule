@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://iakat0jsaks2"]
+[gd_scene load_steps=3 format=3 uid="uid://iakat0jsaks2"]
 
-[ext_resource type="Script" path="res://Scenes/metal.gd" id="1_r762w"]
+[ext_resource type="Script" path="res://Scripts/metal.gd" id="1_ggrsa"]
+[ext_resource type="Texture2D" uid="uid://xek81vruesb4" path="res://Art/Metals/Lead.png" id="2_ahs1q"]
 
 [node name="Metal" type="Node2D"]
-script = ExtResource("1_r762w")
+script = ExtResource("1_ggrsa")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_ahs1q")

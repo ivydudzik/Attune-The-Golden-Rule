@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 # This card is a nullcard
 func isNullcard():

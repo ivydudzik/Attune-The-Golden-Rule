@@ -1,13 +1,22 @@
-extends Panel
+class_name Card extends Control
 
 signal card_dropped(card : Panel, index : int)
 
+# Data Variables
+@export var card_data : CardDataResource
+var flipped : bool = false
+
+# Manipulation Variables
 var hovering : bool = false
 var dragging : bool = false
 var returning : bool = false
 var drag_start : Vector2
 var offset : Vector2
 var slot : Panel = null
+
+func _ready():
+	assert(card_data, "No card data provided for card " + str(get_index()) + " in hand.")
+	$"Card Panel/Label".text = card_data.title
 
 # This card is not a nullcard
 func isNullcard():
@@ -61,5 +70,5 @@ func _on_area_mouse_exited():
 func _on_placement_area_area_entered(area):
 	slot = area.get_parent()
 
-func _on_placement_area_area_exited(area):
+func _on_placement_area_area_exited(_area):
 	slot = null

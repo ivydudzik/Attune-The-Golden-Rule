@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=21 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
@@ -9,9 +9,46 @@
 [ext_resource type="Texture2D" uid="uid://8aocr5vch16m" path="res://Art/Scribble Dungeons/Double (128px)/Characters/yellow_character.png" id="5_npm40"]
 [ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
 [ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="7_7f1al"]
+[ext_resource type="Script" path="res://Scripts/card_data.gd" id="9_jh3nf"]
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
+
+[sub_resource type="Resource" id="Resource_jeby8"]
+script = ExtResource("9_jh3nf")
+title = "The Vain"
+metal_type = "Lead"
+effect_type = "Add/Subtract"
+
+[sub_resource type="Resource" id="Resource_v1sc7"]
+script = ExtResource("9_jh3nf")
+title = "The Queen"
+metal_type = "Lead"
+effect_type = "Add/Subtract"
+
+[sub_resource type="Resource" id="Resource_juygi"]
+script = ExtResource("9_jh3nf")
+title = "Judgement"
+metal_type = "Lead"
+effect_type = "Add/Subtract"
+
+[sub_resource type="Resource" id="Resource_7abfb"]
+script = ExtResource("9_jh3nf")
+title = "The Lovers"
+metal_type = "Tin"
+effect_type = "Add/Subtract"
+
+[sub_resource type="Resource" id="Resource_6wca5"]
+script = ExtResource("9_jh3nf")
+title = "Bulbasaur"
+metal_type = "Lead"
+effect_type = "Multiply/Divide"
+
+[sub_resource type="Resource" id="Resource_qn2md"]
+script = ExtResource("9_jh3nf")
+title = "Untitled"
+metal_type = "Lead"
+effect_type = "Add/Subtract"
 
 [sub_resource type="LabelSettings" id="LabelSettings_oatni"]
 font = ExtResource("10_3ws7t")
@@ -19,7 +56,7 @@ font_size = 48
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_5lj0w")
-available_plays = 3
+available_plays = 5
 available_swaps = 3
 
 [node name="Board Container" type="Control" parent="."]
@@ -76,7 +113,6 @@ theme_override_constants/separation = 105
 alignment = 1
 
 [node name="Grid Container" type="GridContainer" parent="Board Container/Vertical Container"]
-modulate = Color(1, 1, 0, 0.211765)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -127,6 +163,19 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 90
+
+[node name="Metals Grid Container" type="GridContainer" parent="Board Container"]
+layout_mode = 2
+offset_left = 430.0
+offset_top = 495.0
+offset_right = 1490.0
+offset_bottom = 1070.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 10
 
 [node name="Metals" type="Node2D" parent="."]
 
@@ -207,26 +256,27 @@ alignment = 1
 
 [node name="Card 1" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
 layout_mode = 2
-
-[node name="Label" parent="Play Container/Hand Container/Card 1" index="0"]
-text = "Judgement"
+card_data = SubResource("Resource_jeby8")
 
 [node name="Card 2" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
 layout_mode = 2
+card_data = SubResource("Resource_v1sc7")
 
 [node name="Card 3" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
 layout_mode = 2
-mouse_filter = 2
-
-[node name="Label" parent="Play Container/Hand Container/Card 3" index="0"]
-text = "The Lovers"
+card_data = SubResource("Resource_juygi")
 
 [node name="Card 4" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
 layout_mode = 2
-mouse_filter = 2
+card_data = SubResource("Resource_7abfb")
 
-[node name="Label" parent="Play Container/Hand Container/Card 4" index="0"]
-text = "Bulbasaur"
+[node name="Card 5" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+card_data = SubResource("Resource_6wca5")
+
+[node name="Card 6" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+card_data = SubResource("Resource_qn2md")
 
 [node name="Vertical Container" type="VBoxContainer" parent="Play Container"]
 layout_mode = 1
@@ -350,8 +400,3 @@ mouse_filter = 2
 theme_override_constants/separation = 820
 
 [connection signal="pressed" from="UI/Vertical Container/Infuse Button" to="." method="_on_infuse_button_pressed"]
-
-[editable path="Play Container/Hand Container/Card 1"]
-[editable path="Play Container/Hand Container/Card 2"]
-[editable path="Play Container/Hand Container/Card 3"]
-[editable path="Play Container/Hand Container/Card 4"]

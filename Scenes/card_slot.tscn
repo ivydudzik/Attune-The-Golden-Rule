@@ -8,7 +8,7 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.919634, 0.743128, 0.22568, 1)
+border_color = Color(0.74, 0.435367, 0.259, 0.529412)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -19,12 +19,12 @@ anti_aliasing = false
 size = Vector2(100, 140)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8n1h"]
-bg_color = Color(0.907165, 0.43033, 0.448585, 1)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_color = Color(1, 1, 1, 1)
+bg_color = Color(0.660358, 0.293486, 0.348554, 1)
+border_width_left = 32
+border_width_top = 32
+border_width_right = 32
+border_width_bottom = 32
+border_color = Color(0.231373, 0.0980392, 0.266667, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -52,6 +52,7 @@ position = Vector2(100, 140)
 shape = SubResource("RectangleShape2D_x6l28")
 
 [node name="Catalyst Marker" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
