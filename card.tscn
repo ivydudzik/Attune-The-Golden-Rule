@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgcnlirdb27w2"]
+
+[ext_resource type="Script" path="res://card.gd" id="1_3pytd"]
+[ext_resource type="FontFile" uid="uid://xas5qgs4r6eg" path="res://Fonts/Libre Baskerville/LibreBaskerville-Regular.ttf" id="1_l3cjr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep02y"]
+bg_color = Color(0.751891, 0.5099, 0.419066, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55808, 0.31836, 0.270899, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.364706)
+shadow_size = 1
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_squht"]
+font = ExtResource("1_l3cjr")
+font_size = 32
+shadow_color = Color(0, 0, 0, 0.235294)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3og1v"]
+size = Vector2(200, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5csf"]
+size = Vector2(100, 140)
+
+[node name="Card" type="Panel"]
+custom_minimum_size = Vector2(200, 280)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -140.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_ep02y")
+script = ExtResource("1_3pytd")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -41.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "The Queen"
+label_settings = SubResource("LabelSettings_squht")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Collision Shape" type="CollisionShape2D" parent="Area"]
+position = Vector2(100, 140)
+shape = SubResource("RectangleShape2D_3og1v")
+
+[node name="Placement Area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="Collision Shape" type="CollisionShape2D" parent="Placement Area"]
+position = Vector2(100, 140)
+shape = SubResource("RectangleShape2D_e5csf")
+
+[connection signal="mouse_entered" from="Area" to="." method="_on_area_mouse_entered"]
+[connection signal="mouse_exited" from="Area" to="." method="_on_area_mouse_exited"]
+[connection signal="area_entered" from="Placement Area" to="." method="_on_placement_area_area_entered"]
+[connection signal="area_exited" from="Placement Area" to="." method="_on_placement_area_area_exited"]

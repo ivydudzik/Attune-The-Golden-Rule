@@ -1,17 +1,266 @@
-[gd_scene load_steps=2 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=9 format=3 uid="uid://evwpj63iljro"]
 
-[ext_resource type="Texture2D" uid="uid://b8o1osxotc6yw" path="res://yellow_body_circle.png" id="1_byfhy"]
+[ext_resource type="Script" path="res://main.gd" id="1_5lj0w"]
+[ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://card.tscn" id="1_a1c0o"]
+[ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://card_slot.tscn" id="1_cv1wv"]
+[ext_resource type="Texture2D" uid="uid://fvfaqtq50qbj" path="res://Art/Scribble Dungeons/Double (128px)/Characters/green_character.png" id="2_o7vfo"]
+[ext_resource type="Texture2D" uid="uid://biuikaovxrnu" path="res://Art/Scribble Dungeons/Double (128px)/Characters/purple_character.png" id="3_y4m3m"]
+[ext_resource type="Texture2D" uid="uid://brdd7mhqn4000" path="res://Art/Scribble Dungeons/Double (128px)/Characters/red_character.png" id="4_xygdv"]
+[ext_resource type="Texture2D" uid="uid://8aocr5vch16m" path="res://Art/Scribble Dungeons/Double (128px)/Characters/yellow_character.png" id="5_npm40"]
+[ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://nullcard.tscn" id="6_iowam"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_5lj0w")
 
-[node name="YellowBodyCircle" type="Sprite2D" parent="."]
-position = Vector2(81, 75)
-texture = ExtResource("1_byfhy")
+[node name="Board Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
 
-[node name="YellowBodyCircle2" type="Sprite2D" parent="."]
-position = Vector2(266, 117)
-texture = ExtResource("1_byfhy")
+[node name="Table" type="ColorRect" parent="Board Container"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.249723, 0.123191, 0.0704354, 1)
 
-[node name="YellowBodyCircle3" type="Sprite2D" parent="."]
-position = Vector2(226, 353)
-texture = ExtResource("1_byfhy")
+[node name="Velvet Cover" type="ColorRect" parent="Board Container/Table"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -719.5
+offset_top = -540.0
+offset_right = 719.5
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.229515, 0.0963688, 0.266024, 1)
+
+[node name="HandArea" type="ColorRect" parent="Board Container/Table"]
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.164706)
+
+[node name="Vertical Container" type="VBoxContainer" parent="Board Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 105
+alignment = 1
+
+[node name="Grid Container" type="GridContainer" parent="Board Container/Vertical Container"]
+modulate = Color(1, 1, 0, 0.211765)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 5
+
+[node name="Card Slot 1" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 2" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 3" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 4" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 5" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 6" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 7" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 8" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 9" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="Card Slot 10" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+layout_mode = 2
+
+[node name="H Separator" type="HSeparator" parent="Board Container/Vertical Container"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 90
+
+[node name="Metals" type="Node2D" parent="."]
+
+[node name="circle1" type="Sprite2D" parent="Metals"]
+position = Vector2(84, 88)
+texture = ExtResource("2_o7vfo")
+
+[node name="circle5" type="Sprite2D" parent="Metals"]
+position = Vector2(97, 227)
+texture = ExtResource("2_o7vfo")
+
+[node name="circle2" type="Sprite2D" parent="Metals"]
+position = Vector2(1691, 93)
+texture = ExtResource("3_y4m3m")
+
+[node name="circle11" type="Sprite2D" parent="Metals"]
+position = Vector2(165, 734)
+texture = ExtResource("3_y4m3m")
+
+[node name="circle3" type="Sprite2D" parent="Metals"]
+position = Vector2(1712, 971)
+texture = ExtResource("4_xygdv")
+
+[node name="circle6" type="Sprite2D" parent="Metals"]
+position = Vector2(1836, 873)
+texture = ExtResource("4_xygdv")
+
+[node name="circle7" type="Sprite2D" parent="Metals"]
+position = Vector2(1677, 822)
+texture = ExtResource("4_xygdv")
+
+[node name="circle8" type="Sprite2D" parent="Metals"]
+position = Vector2(1751, 729)
+texture = ExtResource("4_xygdv")
+
+[node name="circle9" type="Sprite2D" parent="Metals"]
+position = Vector2(325, 82)
+texture = ExtResource("4_xygdv")
+
+[node name="circle10" type="Sprite2D" parent="Metals"]
+position = Vector2(231, 150)
+texture = ExtResource("4_xygdv")
+
+[node name="circle4" type="Sprite2D" parent="Metals"]
+position = Vector2(128, 925)
+texture = ExtResource("5_npm40")
+
+[node name="Play Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Hand Container" type="HBoxContainer" parent="Play Container"]
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -155.0
+offset_top = -250.0
+offset_right = 155.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Card 1" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+
+[node name="Label" parent="Play Container/Hand Container/Card 1" index="0"]
+text = "Judgement"
+
+[node name="Card 2" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+
+[node name="Card 3" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" parent="Play Container/Hand Container/Card 3" index="0"]
+text = "The Lovers"
+
+[node name="Card 4" parent="Play Container/Hand Container" instance=ExtResource("1_a1c0o")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" parent="Play Container/Hand Container/Card 4" index="0"]
+text = "Bulbasaur"
+
+[node name="Vertical Container" type="VBoxContainer" parent="Play Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 105
+alignment = 1
+
+[node name="Board Grid Container" type="GridContainer" parent="Play Container/Vertical Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 5
+
+[node name="Null" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 2" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 3" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 4" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 5" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 6" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 7" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 8" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 9" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="Null 10" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+layout_mode = 2
+
+[node name="H Separator" type="HSeparator" parent="Play Container/Vertical Container"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 90
+
+[editable path="Play Container/Hand Container/Card 1"]
+[editable path="Play Container/Hand Container/Card 2"]
+[editable path="Play Container/Hand Container/Card 3"]
+[editable path="Play Container/Hand Container/Card 4"]
