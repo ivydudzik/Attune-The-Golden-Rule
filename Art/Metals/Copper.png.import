@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8o1osxotc6yw"
-path="res://.godot/imported/yellow_body_circle.png-d95a776e78f5e9ca8a428e1ae2a5cd17.ctex"
+uid="uid://ddyux15btoxr2"
+path="res://.godot/imported/Copper.png-5ae4cf0d785e2dee85399aa2a6d895ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://yellow_body_circle.png"
-dest_files=["res://.godot/imported/yellow_body_circle.png-d95a776e78f5e9ca8a428e1ae2a5cd17.ctex"]
+source_file="res://Art/Metals/Copper.png"
+dest_files=["res://.godot/imported/Copper.png-5ae4cf0d785e2dee85399aa2a6d895ba.ctex"]
 
 [params]
 

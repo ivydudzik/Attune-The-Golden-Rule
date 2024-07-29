@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4xuo6ufotbox"]
 
-[ext_resource type="Script" path="res://nullcard.gd" id="1_fb0x3"]
+[ext_resource type="Script" path="res://Scripts/nullcard.gd" id="1_fb0x3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep02y"]
 bg_color = Color(0.751891, 0.5099, 0.419066, 1)
@@ -31,6 +31,7 @@ offset_top = -140.0
 offset_right = 50.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(100, 140)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2

@@ -4,6 +4,8 @@ extends Node2D
 @onready var hand := $"Play Container/Hand Container"
 @onready var board_slots := $"Board Container/Vertical Container/Grid Container"
 
+@onready var board_slot_count : int = len(board.get_children())
+
 @onready var plays_text = $"UI/Plays Text"
 @onready var swaps_text = $"UI/Swaps Text"
 
@@ -17,6 +19,29 @@ func _ready():
 	#available_plays = 1
 	#available_swaps = 1
 	update_ui_text()
+
+func toggle_cutscene_mode():
+	## STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
+	pass
+
+func infuse():
+	toggle_cutscene_mode()
+	for index in board_slot_count:
+		var card : Panel = board.get_child(index)
+		var slot : Panel = board_slots.get_child(index)
+		# Skip null cards
+		if card.isNullcard():
+			continue
+		# Wait for the card activation animations to play before moving on
+		await activate_card(card)
+
+func activate_card(card : Panel):
+	var tween = get_tree().create_tween()
+	tween.tween_property(card, "scale", Vector2(1.5, 1.5), 0.1).set_trans(Tween.TRANS_CUBIC)
+	await get_tree().create_timer(0.1).timeout
+	var tween2 = get_tree().create_tween()
+	tween2.tween_property(card, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC)
+	await get_tree().create_timer(0.25).timeout
 
 func update_ui_text():
 	plays_text.text = str(available_plays)
@@ -81,3 +106,7 @@ func play_new_card(card : Panel, index : int) -> void:
 		card_placement_area.set_collision_mask_value(4, true)
 	else:
 		print("Not a valid place for card.")
+
+
+func _on_infuse_button_pressed():
+	infuse()

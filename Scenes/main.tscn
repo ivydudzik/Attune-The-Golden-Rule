@@ -1,13 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=14 format=3 uid="uid://evwpj63iljro"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_5lj0w"]
-[ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://card.tscn" id="1_a1c0o"]
-[ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://card_slot.tscn" id="1_cv1wv"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_5lj0w"]
+[ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
+[ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
 [ext_resource type="Texture2D" uid="uid://fvfaqtq50qbj" path="res://Art/Scribble Dungeons/Double (128px)/Characters/green_character.png" id="2_o7vfo"]
 [ext_resource type="Texture2D" uid="uid://biuikaovxrnu" path="res://Art/Scribble Dungeons/Double (128px)/Characters/purple_character.png" id="3_y4m3m"]
 [ext_resource type="Texture2D" uid="uid://brdd7mhqn4000" path="res://Art/Scribble Dungeons/Double (128px)/Characters/red_character.png" id="4_xygdv"]
 [ext_resource type="Texture2D" uid="uid://8aocr5vch16m" path="res://Art/Scribble Dungeons/Double (128px)/Characters/yellow_character.png" id="5_npm40"]
-[ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://nullcard.tscn" id="6_iowam"]
+[ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
+[ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="7_7f1al"]
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
@@ -173,6 +174,13 @@ texture = ExtResource("4_xygdv")
 position = Vector2(128, 925)
 texture = ExtResource("5_npm40")
 
+[node name="Metal" parent="Metals" instance=ExtResource("7_7f1al")]
+position = Vector2(1790, 549)
+
+[node name="Metal 2" parent="Metals" instance=ExtResource("7_7f1al")]
+position = Vector2(1549, 955)
+metal_type = "Tin"
+
 [node name="Play Container" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -277,41 +285,71 @@ mouse_filter = 2
 theme_override_constants/separation = 90
 
 [node name="UI" type="Control" parent="."]
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 50.0
-offset_top = 54.0
-offset_right = 90.0
-offset_bottom = 94.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
 
 [node name="Playcard" type="Sprite2D" parent="UI"]
 modulate = Color(0.705882, 0.486275, 0.360784, 1)
+position = Vector2(48.75, 49.25)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_vyirb")
 
 [node name="Plays Text" type="Label" parent="UI"]
 layout_mode = 0
-offset_left = 56.0
-offset_top = -18.0
-offset_right = 96.0
-offset_bottom = 63.0
+offset_left = 104.75
+offset_top = 31.25
+offset_right = 144.75
+offset_bottom = 112.25
 text = "1"
 label_settings = SubResource("LabelSettings_oatni")
 
 [node name="Swapcard" type="Sprite2D" parent="UI"]
 modulate = Color(0.707177, 0.487233, 0.360996, 1)
-position = Vector2(14, 116)
+position = Vector2(62.75, 165.25)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("11_r4mkl")
 
 [node name="Swaps Text" type="Label" parent="UI"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 86.0
-offset_right = 95.0
-offset_bottom = 167.0
+offset_left = 103.75
+offset_top = 135.25
+offset_right = 143.75
+offset_bottom = 216.25
 text = "1"
 label_settings = SubResource("LabelSettings_oatni")
+
+[node name="Vertical Container" type="VBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 105
+alignment = 1
+
+[node name="Infuse Button" type="Button" parent="UI/Vertical Container"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("10_3ws7t")
+theme_override_font_sizes/font_size = 48
+text = "INFUSE"
+
+[node name="H Separator" type="HSeparator" parent="UI/Vertical Container"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 820
+
+[connection signal="pressed" from="UI/Vertical Container/Infuse Button" to="." method="_on_infuse_button_pressed"]
 
 [editable path="Play Container/Hand Container/Card 1"]
 [editable path="Play Container/Hand Container/Card 2"]

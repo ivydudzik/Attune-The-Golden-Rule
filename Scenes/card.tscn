@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bgcnlirdb27w2"]
 
-[ext_resource type="Script" path="res://card.gd" id="1_3pytd"]
+[ext_resource type="Script" path="res://Scripts/card.gd" id="1_3pytd"]
 [ext_resource type="FontFile" uid="uid://xas5qgs4r6eg" path="res://Fonts/Libre Baskerville/LibreBaskerville-Regular.ttf" id="1_l3cjr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep02y"]
@@ -58,6 +58,7 @@ offset_top = -140.0
 offset_right = 50.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(100, 140)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
