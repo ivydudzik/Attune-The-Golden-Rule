@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Level" load_steps=4 format=3 uid="uid://bnsyl03fj57nn"]
+
+[ext_resource type="Script" path="res://Data/level_data.gd" id="1_1nv4e"]
+[ext_resource type="Resource" uid="uid://c73napwo73vtm" path="res://Data/Cards/the_devil.tres" id="2_wtkgg"]
+[ext_resource type="Resource" uid="uid://m28jifxkyao0" path="res://Data/Cards/the_sphinx.tres" id="3_c7svk"]
+
+[resource]
+script = ExtResource("1_1nv4e")
+level = 1
+goal_metal = "Iron"
+starting_cards = Array[Resource("res://Data/card_data.gd")]([ExtResource("2_wtkgg"), ExtResource("3_c7svk")])
+plays_per_infusion = 1
+swaps_per_infusion = 1
+total_infusions = 2

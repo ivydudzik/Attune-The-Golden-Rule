@@ -65,7 +65,7 @@ func toggle_cutscene_mode() -> void:
 	infuse_button.disabled = !infuse_button.disabled
 
 ## An "infusion" function to conduct the infusion process when the infuse button is pressed
-func infuse() -> void:
+func infuse() -> bool:
 	# Play sound
 	audio_manager.infuse.play()
 	toggle_cutscene_mode()
@@ -79,8 +79,7 @@ func infuse() -> void:
 		if slot.slot_type == "Dormant":
 			continue
 		# Wait for the card activation animations to play before moving on
-		await activate_card(card)
-		if !get_tree(): return
+		if !(await activate_card(card)): return false
 	# Reset plays and swaps
 	available_plays = plays_per_infusion
 	available_swaps = swaps_per_infusion
@@ -89,6 +88,7 @@ func infuse() -> void:
 	if available_infusions == 0:
 		await level_failure()
 	toggle_cutscene_mode()
+	return true
 
 func level_failure():
 	print("Level failed.")
@@ -109,8 +109,8 @@ func level_victory(metal : Metal):
 	await tween_animate(metal, "scale", Vector2(2.0, 2.0), 0.5, Tween.TRANS_CUBIC, 2)
 	await get_tree().create_timer(3).timeout
 	ProgressionTracker.level += 1
-	if ProgressionTracker.level == 3:
-		get_tree().quit()
+	if ProgressionTracker.level == 4:
+		ProgressionTracker.level = 1
 	get_tree().reload_current_scene()
 	
 func tween_animate(object : Object, property : String, final_val : Variant, duration : float, transition : Tween.TransitionType, z_idx_offset_during_anim : int = 0) -> void:
@@ -123,7 +123,7 @@ func tween_animate(object : Object, property : String, final_val : Variant, dura
 
 
 ## A card activation function to activate cards (visually and functionally) during infusion
-func activate_card(card : Card) -> void:
+func activate_card(card : Card) -> bool:
 	# Play sound
 	audio_manager.activate_card.play()
 	card.z_index += 1
@@ -132,8 +132,7 @@ func activate_card(card : Card) -> void:
 	if card.card_data.effect_type == "Add/Subtract":
 		# "Add" Code:
 		var offscreen_center_above : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, -ProjectSettings.get_setting("display/window/size/viewport_height")/2)
-		await create_metal(card.card_data.metal_type, offscreen_center_above)
-		if !get_tree(): return
+		if !(await create_metal(card.card_data.metal_type, offscreen_center_above)): return false
 	elif card.card_data.effect_type == "Multiply/Divide":
 		## CRY
 		pass
@@ -142,9 +141,10 @@ func activate_card(card : Card) -> void:
 
 	await tween_animate(card, "scale", Vector2(1.0, 1.0), 0.25, Tween.TRANS_CUBIC)
 	card.z_index -= 1
-	await react()
+	if !(await react()): return false
+	return true
 
-func create_metal(metal_type : String, starting_position : Vector2) -> void:
+func create_metal(metal_type : String, starting_position : Vector2) -> bool:
 	var metal : Node2D = METAL.instantiate()
 	metal.metal_type = metal_type
 	metals.add_child(metal)
@@ -162,10 +162,12 @@ func create_metal(metal_type : String, starting_position : Vector2) -> void:
 	# Check win condition
 	if metal.metal_type == level_data.goal_metal:
 		await level_victory(metal)
+		return false
+	return true
 
 
 ## A "reaction" function to conduct the reactions that occur when the metal counts change
-func react() -> void:
+func react() -> bool:
 	## TESTS RULES IN ORDER FROM LOWEST RARITY TO HIGHEST
 	for rule : AlchemyRule in metal_rules:
 		if rule_met(rule, metal_counts): 
@@ -198,10 +200,10 @@ func react() -> void:
 			
 			# Create new metal on the board
 			assert(rule.product.amount == 1, "The code is currently written to only allow 1 product to be generated. Modify it to allow more.")
-			await create_metal(rule.product.name, screen_center)
-			if !get_tree(): return
-			await react()
-			return
+			if !(await create_metal(rule.product.name, screen_center)): return false
+			if !(await react()): return false
+			return true
+	return true
 
 ## A "rule evaluation" function to check if the current metal counts are sufficient
 func rule_met(rule : AlchemyRule, substance_counts : Dictionary) -> bool:

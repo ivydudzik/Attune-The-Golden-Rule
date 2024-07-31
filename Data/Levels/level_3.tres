@@ -1,14 +1,19 @@
-[gd_resource type="Resource" script_class="Level" load_steps=4 format=3 uid="uid://eid4h2a0snnb"]
+[gd_resource type="Resource" script_class="Level" load_steps=9 format=3 uid="uid://eid4h2a0snnb"]
 
 [ext_resource type="Script" path="res://Data/level_data.gd" id="1_llllx"]
 [ext_resource type="Resource" uid="uid://c73napwo73vtm" path="res://Data/Cards/the_devil.tres" id="2_3r2yt"]
 [ext_resource type="Resource" uid="uid://m28jifxkyao0" path="res://Data/Cards/the_sphinx.tres" id="3_2ls05"]
+[ext_resource type="Resource" uid="uid://ssbak86ficpi" path="res://Data/Cards/the_warrior.tres" id="4_33rql"]
+[ext_resource type="Resource" uid="uid://l8w6afxy21c4" path="res://Data/Cards/the_queen.tres" id="5_ncdwp"]
+[ext_resource type="Resource" uid="uid://br60jlrmye7lf" path="res://Data/Cards/the_nomad_alt.tres" id="6_tvvkd"]
+[ext_resource type="Resource" uid="uid://otmf3tpciv8x" path="res://Data/Cards/the_nomad.tres" id="7_bc4jp"]
+[ext_resource type="Resource" uid="uid://b5feguvm0nt28" path="res://Data/Cards/the_king.tres" id="8_xjtv2"]
 
 [resource]
 script = ExtResource("1_llllx")
 level = 1
-goal_metal = "Iron"
-starting_cards = Array[Resource("res://Data/card_data.gd")]([ExtResource("2_3r2yt"), ExtResource("3_2ls05")])
-plays_per_infusion = 1
-swaps_per_infusion = 1
-total_infusions = 2
+goal_metal = "Gold"
+starting_cards = Array[Resource("res://Data/card_data.gd")]([ExtResource("2_3r2yt"), ExtResource("3_2ls05"), ExtResource("4_33rql"), ExtResource("5_ncdwp"), ExtResource("6_tvvkd"), ExtResource("7_bc4jp"), ExtResource("8_xjtv2")])
+plays_per_infusion = 2
+swaps_per_infusion = 2
+total_infusions = 4

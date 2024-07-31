@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="AlchemyRule" load_steps=8 format=3 uid="uid://b1qg2ffwjxa1h"]
+
+[ext_resource type="Script" path="res://Data/substance.gd" id="1_4upq5"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_v1st5"]
+
+[sub_resource type="Resource" id="Resource_fgqr1"]
+script = ExtResource("1_4upq5")
+name = "Gold"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_pc1f3"]
+script = ExtResource("1_4upq5")
+name = "Silver"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_i0l6f"]
+script = ExtResource("1_4upq5")
+name = "Lead"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_snv7h"]
+script = ExtResource("1_4upq5")
+name = "Iron"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_cxnhl"]
+script = ExtResource("1_4upq5")
+name = "Copper"
+amount = 2
+
+[resource]
+script = ExtResource("2_v1st5")
+name = "Rule of Gold"
+reactants = Array[ExtResource("1_4upq5")]([SubResource("Resource_pc1f3"), SubResource("Resource_i0l6f"), SubResource("Resource_snv7h"), SubResource("Resource_cxnhl")])
+product = SubResource("Resource_fgqr1")

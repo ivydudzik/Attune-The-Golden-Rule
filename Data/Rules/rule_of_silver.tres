@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AlchemyRule" load_steps=6 format=3 uid="uid://bdi5q6f7mcisb"]
+
+[ext_resource type="Script" path="res://Data/substance.gd" id="1_2om1n"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_nnnx2"]
+
+[sub_resource type="Resource" id="Resource_peswd"]
+script = ExtResource("1_2om1n")
+name = "Silver"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_lfxjb"]
+script = ExtResource("1_2om1n")
+name = "Tin"
+amount = 2
+
+[sub_resource type="Resource" id="Resource_kwes7"]
+script = ExtResource("1_2om1n")
+name = "Quicksilver"
+amount = 1
+
+[resource]
+script = ExtResource("2_nnnx2")
+name = "Rule of Silver"
+reactants = Array[ExtResource("1_2om1n")]([SubResource("Resource_lfxjb"), SubResource("Resource_kwes7")])
+product = SubResource("Resource_peswd")

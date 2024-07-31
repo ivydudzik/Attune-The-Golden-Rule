@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=27 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
@@ -6,7 +6,9 @@
 [ext_resource type="Resource" uid="uid://bybtxm72ahrj" path="res://Data/Rules/rule_of_copper.tres" id="3_dfpip"]
 [ext_resource type="Script" path="res://Scenes/audio_manager.gd" id="4_p0qnn"]
 [ext_resource type="Resource" uid="uid://c4j1rgunhf68g" path="res://Data/Rules/rule_of_quicksilver.tres" id="4_seiig"]
+[ext_resource type="Resource" uid="uid://bdi5q6f7mcisb" path="res://Data/Rules/rule_of_silver.tres" id="5_mixvd"]
 [ext_resource type="AudioStream" uid="uid://dor3cpbu46gcc" path="res://Audio/Attune_TGR_SFX_activate_card.wav" id="6_3kyu8"]
+[ext_resource type="Resource" uid="uid://b1qg2ffwjxa1h" path="res://Data/Rules/rule_of_gold.tres" id="6_3q1yg"]
 [ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
 [ext_resource type="AudioStream" uid="uid://cjjc8kic7l2fm" path="res://Audio/Attune_TGR_SFX_card_1.wav" id="7_5cjdg"]
 [ext_resource type="AudioStream" uid="uid://dhjtug5d6my8a" path="res://Audio/Attune_TGR_SFX_drag_1.wav" id="8_dujlq"]
@@ -22,6 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://b7oksvx7t4haw" path="res://Audio/Attune_TGR_SFX_UI_button_2.wav" id="14_1wbeb"]
 [ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
 [ext_resource type="AudioStream" uid="uid://bin6i4okgwxs" path="res://Audio/Attune_TGR_SFX_failure.wav" id="14_kcnqf"]
+[ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="25_wqlj0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_oatni"]
 font = ExtResource("10_3ws7t")
@@ -29,7 +32,7 @@ font_size = 48
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_5lj0w")
-metal_rules = Array[Resource("res://Data/rule.gd")]([ExtResource("2_lrccn"), ExtResource("3_dfpip"), ExtResource("4_seiig")])
+metal_rules = Array[Resource("res://Data/rule.gd")]([ExtResource("2_lrccn"), ExtResource("3_dfpip"), ExtResource("4_seiig"), ExtResource("5_mixvd"), ExtResource("6_3q1yg")])
 
 [node name="Audio Manager" type="Node" parent="."]
 script = ExtResource("4_p0qnn")
@@ -356,5 +359,42 @@ offset_right = 189.0
 offset_bottom = 216.0
 text = "1"
 label_settings = SubResource("LabelSettings_oatni")
+
+[node name="Rules" type="Node2D" parent="UI"]
+
+[node name="Infusion2" type="Sprite2D" parent="UI/Rules"]
+modulate = Color(0.705882, 0.486275, 0.360784, 1)
+position = Vector2(1837, 26)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("11_yl3pw")
+
+[node name="Metal" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1679, 27)
+scale = Vector2(0.5, 0.5)
+
+[node name="Metal2" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1731, 25)
+scale = Vector2(0.5, 0.5)
+metal_type = "Iron"
+
+[node name="Metal3" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1782, 24)
+scale = Vector2(0.5, 0.5)
+metal_type = "Copper"
+
+[node name="Metal4" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1574, 29)
+scale = Vector2(0.5, 0.5)
+metal_type = "Copper"
+
+[node name="Metal5" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1626, 29)
+scale = Vector2(0.5, 0.5)
+metal_type = "Silver"
+
+[node name="Metal6" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
+position = Vector2(1891, 25)
+scale = Vector2(0.5, 0.5)
+metal_type = "Gold"
 
 [connection signal="pressed" from="Board Container/Vertical Container 2/Infuse Button" to="." method="_on_infuse_button_pressed"]
