@@ -107,6 +107,7 @@ func level_victory(metal : Metal):
 	var screen_center : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, ProjectSettings.get_setting("display/window/size/viewport_height")/2)
 	tween_animate(metal, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, 2)
 	await tween_animate(metal, "scale", Vector2(2.0, 2.0), 0.5, Tween.TRANS_CUBIC, 2)
+	metal.z_index += 2
 	await get_tree().create_timer(3).timeout
 	ProgressionTracker.level += 1
 	if ProgressionTracker.level == 4:
