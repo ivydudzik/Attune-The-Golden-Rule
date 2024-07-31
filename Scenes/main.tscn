@@ -1,20 +1,39 @@
-[gd_scene load_steps=23 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=26 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
 [ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
 [ext_resource type="Texture2D" uid="uid://fvfaqtq50qbj" path="res://Art/Scribble Dungeons/Double (128px)/Characters/green_character.png" id="2_o7vfo"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_q4ysw"]
 [ext_resource type="Texture2D" uid="uid://biuikaovxrnu" path="res://Art/Scribble Dungeons/Double (128px)/Characters/purple_character.png" id="3_y4m3m"]
 [ext_resource type="Texture2D" uid="uid://brdd7mhqn4000" path="res://Art/Scribble Dungeons/Double (128px)/Characters/red_character.png" id="4_xygdv"]
 [ext_resource type="Texture2D" uid="uid://8aocr5vch16m" path="res://Art/Scribble Dungeons/Double (128px)/Characters/yellow_character.png" id="5_npm40"]
 [ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
 [ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="7_7f1al"]
-[ext_resource type="Script" path="res://Scripts/card_data.gd" id="9_jh3nf"]
+[ext_resource type="Script" path="res://Data/card_data.gd" id="9_jh3nf"]
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
 [ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="11_yl3pw"]
 [ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
+
+[sub_resource type="Resource" id="Resource_v1csx"]
+script = ExtResource("2_q4ysw")
+reactant_1 = "Copper"
+reactant_1_amount = 5
+reactant_2 = "Lead"
+reactant_2_amount = 2
+product = "Gold"
+product_amount = 1
+
+[sub_resource type="Resource" id="Resource_laqfe"]
+script = ExtResource("2_q4ysw")
+reactant_1 = "Lead"
+reactant_1_amount = 1
+reactant_2 = "Tin"
+reactant_2_amount = 1
+product = "Iron"
+product_amount = 1
 
 [sub_resource type="Resource" id="Resource_jeby8"]
 script = ExtResource("9_jh3nf")
@@ -61,6 +80,7 @@ script = ExtResource("1_5lj0w")
 plays_per_infusion = 5
 swaps_per_infusion = 3
 total_infusions = 3
+metal_rules = Array[ExtResource("2_q4ysw")]([SubResource("Resource_v1csx"), SubResource("Resource_laqfe")])
 
 [node name="Board Container" type="Control" parent="."]
 layout_mode = 3
@@ -167,56 +187,61 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 90
 
-[node name="Metals" type="Node2D" parent="."]
+[node name="Metals" type="Line2D" parent="."]
+points = PackedVector2Array(1815, 87, 1595, 58, 1699, 221, 1828, 216, 1815, 398, 1790, 553, 1751, 731, 1679, 822, 1711, 973, 1850, 881, 1859, 699, 1709, 644, 1642, 452, 1744, 322, 1647, 292, 1786, 147, 1595, 173, 1682, 109, 1430, 72, 1479, 25, 1265, 107, 1568, 232, 1586, 417, 1635, 662, 1731, 482, 1790, 800, 126, 940, 163, 733, 37, 856, 71, 657, 177, 588, 234, 780, 93, 467, 184, 459, 264, 430, 306, 248, 222, 227, 301, 583, 296, 104, 200, 104, 417, 70, 555, 97, 244, 38, 229, 576, 56, 573)
+width = 1.0
 
-[node name="circle1" type="Sprite2D" parent="Metals"]
+[node name="metals_old" type="Node2D" parent="Metals"]
+visible = false
+
+[node name="circle1" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1813, 83)
 texture = ExtResource("2_o7vfo")
 
-[node name="circle5" type="Sprite2D" parent="Metals"]
+[node name="circle5" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1826, 222)
 texture = ExtResource("2_o7vfo")
 
-[node name="circle2" type="Sprite2D" parent="Metals"]
+[node name="circle2" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1605, 60)
 texture = ExtResource("3_y4m3m")
 
-[node name="circle11" type="Sprite2D" parent="Metals"]
+[node name="circle11" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(165, 734)
 texture = ExtResource("3_y4m3m")
 
-[node name="circle3" type="Sprite2D" parent="Metals"]
+[node name="circle3" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1712, 971)
 texture = ExtResource("4_xygdv")
 
-[node name="circle6" type="Sprite2D" parent="Metals"]
+[node name="circle6" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1836, 873)
 texture = ExtResource("4_xygdv")
 
-[node name="circle7" type="Sprite2D" parent="Metals"]
+[node name="circle7" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1677, 822)
 texture = ExtResource("4_xygdv")
 
-[node name="circle8" type="Sprite2D" parent="Metals"]
+[node name="circle8" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1751, 729)
 texture = ExtResource("4_xygdv")
 
-[node name="circle9" type="Sprite2D" parent="Metals"]
+[node name="circle9" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1701, 214)
 texture = ExtResource("4_xygdv")
 
-[node name="circle10" type="Sprite2D" parent="Metals"]
+[node name="circle10" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(1807, 399)
 texture = ExtResource("4_xygdv")
 
-[node name="circle4" type="Sprite2D" parent="Metals"]
+[node name="circle4" type="Sprite2D" parent="Metals/metals_old"]
 position = Vector2(128, 925)
 texture = ExtResource("5_npm40")
 
-[node name="Metal" parent="Metals" instance=ExtResource("7_7f1al")]
+[node name="Metal" parent="Metals/metals_old" instance=ExtResource("7_7f1al")]
 position = Vector2(1790, 549)
 
-[node name="Metal 2" parent="Metals" instance=ExtResource("7_7f1al")]
+[node name="Metal 2" parent="Metals/metals_old" instance=ExtResource("7_7f1al")]
 position = Vector2(1549, 955)
 metal_type = "Tin"
 

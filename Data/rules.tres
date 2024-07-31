@@ -1,0 +1,13 @@
+[gd_resource type="JSON" format=3 uid="uid://d0duj587n8qwo"]
+
+[resource]
+data = {
+"Copper": {
+"Iron": 1.0,
+"Tin": 1.0
+},
+"Iron": {
+"Lead": 1.0,
+"Tin": 1.0
+}
+}

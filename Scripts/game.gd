@@ -1,14 +1,17 @@
 extends Node2D
 
-@onready var board := $"Play Container/Vertical Container/Board Grid Container"
-@onready var hand := $"Play Container/Hand Container"
-@onready var board_slots := $"Board Container/Vertical Container/Grid Container"
+@onready var board : GridContainer= $"Play Container/Vertical Container/Board Grid Container"
+@onready var hand : HBoxContainer = $"Play Container/Hand Container"
+@onready var board_slots : GridContainer = $"Board Container/Vertical Container/Grid Container"
 
 @onready var board_slot_count : int = len(board.get_children())
 
-@onready var plays_text := $"UI/Plays Text"
-@onready var swaps_text := $"UI/Swaps Text"
-@onready var infusion_text = $"UI/Infusion Text"
+@onready var plays_text : Label = $"UI/Plays Text"
+@onready var swaps_text : Label = $"UI/Swaps Text"
+@onready var infusion_text : Label = $"UI/Infusion Text"
+
+@onready var metals : Line2D = $Metals
+@onready var available_metal_positions : Array = Array(metals.points)
 
 @export var plays_per_infusion : int
 @export var swaps_per_infusion : int
@@ -18,24 +21,31 @@ extends Node2D
 @onready var available_swaps : int = swaps_per_infusion
 @onready var available_infusions : int = total_infusions
 
+var metal_counts : Dictionary = {"Lead" = 0, "Tin" = 0, "Iron" = 0, "Copper" = 0, "Quicksilver" = 0, "Silver" = 0, "Gold" = 0,}
+@export var metal_rules : Array[Rule]
+
 const board_dimensions : Vector2i = Vector2i(5, 2)
 
 const METAL : PackedScene = preload("res://Scenes/metal.tscn")
 
-## Utility function to convert card index to board coordinate
+## A utility function to convert card index to board coordinate
 func card_idx_to_coords(index : int, board_width : int) -> Vector2:
 	return Vector2(index % board_width, floor(index / board_width))
 
+## A constructor function which runs when the game enters the scene tree for the first time
 func _ready() -> void:
 	for card in hand.get_children():
 		card.connect("card_dropped", drop_card)
 	update_ui_text()
 
+## A "toggle cutscene" function to stop input handling and disable the infuse button
 func toggle_cutscene_mode() -> void:
-	## STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
+	## TODO STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
 	pass
 
+## An "infusion" function to conduct the infusion process when the infuse button is pressed
 func infuse() -> void:
+	## TODO LOSE STATE
 	toggle_cutscene_mode()
 	for index in board_slot_count:
 		var card : Control = board.get_child(index)
@@ -54,23 +64,31 @@ func infuse() -> void:
 	available_infusions -= 1
 	update_ui_text()
 
+## A card activation function to activate cards (visually and functionally) during infusion
 func activate_card(card : Card) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(card, "scale", Vector2(1.5, 1.5), 0.1).set_trans(Tween.TRANS_CUBIC)
 	await get_tree().create_timer(0.1).timeout
 
 	if card.card_data.effect_type == "Add/Subtract":
+		# "Add" Code:
 		var metal : Node2D = METAL.instantiate()
 		metal.metal_type = card.card_data.metal_type
-		$Metals.add_child(metal)
-		# Move metal to [TEST: MOUSE POSITION]
-		metal.global_position = get_global_mouse_position()
+		metals.add_child(metal)
+		# Move metal to random metals point
+		## TODO tween to this location
+		assert(len(available_metal_positions) != 0, "There are no remaining positions at which to place metals.")
+		var position_index : int = randi_range(0, len(available_metal_positions) - 1)
+		metal.global_position = available_metal_positions[position_index]
+		available_metal_positions.pop_at(position_index)
+		# Update metal counts
+		metal_counts[metal.metal_type] = 1
+		react()
 		
 		#var tween2 = get_tree().create_tween()
 		#tween2.tween_property(card, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC)
 		#await get_tree().create_timer(0.25).timeout
-	
-	if card.card_data.effect_type == "Multiply/Divide":
+	elif card.card_data.effect_type == "Multiply/Divide":
 		## CRY
 		pass
 		#var metal : Node2D = METAL.instantiate()
@@ -81,13 +99,22 @@ func activate_card(card : Card) -> void:
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(card, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC)
 	await get_tree().create_timer(0.25).timeout
-	
 
+## A "reaction" function to conduct the reactions that occur when the metal counts change
+func react() -> void:
+	#for rule in metal_rules:
+		#if rule.
+	#metal_counts
+	
+	pass
+
+## A UI function which updates the text on screen when the values they represent change
 func update_ui_text() -> void:
 	plays_text.text = str(available_plays)
 	swaps_text.text = str(available_swaps)
 	infusion_text.text = str(available_infusions)
 
+## A card drop function that determines whether a card is being played or swapped
 func drop_card(card : Control, index : int) -> void:
 	print("Dropping card to slot ", index, ".")
 	if card in board.get_children():
@@ -105,6 +132,7 @@ func drop_card(card : Control, index : int) -> void:
 		play_new_card(card, index)
 		update_ui_text()
 
+## A card swapping function
 func move_card(card : Control, index : int) -> void:
 	var displaced_child : Control = board.get_child(index)
 	var old_index : int = card.get_index()
@@ -131,7 +159,7 @@ func move_card(card : Control, index : int) -> void:
 	# Subtract 1 from the remaining available swaps
 	available_swaps -= 1
 	
-
+## A card playing function
 func play_new_card(card : Control, index : int) -> void:
 	print("Playing card to slot ", index, ".")
 	if board.get_child(index).isNullcard():
@@ -154,6 +182,6 @@ func play_new_card(card : Control, index : int) -> void:
 	else:
 		print("Not a valid place for card.")
 
-
+# Triggered when the player presses the infusion button
 func _on_infuse_button_pressed() -> void:
 	infuse()
