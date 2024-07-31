@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=6 format=3 uid="uid://bybtxm72ahrj"]
+
+[ext_resource type="Script" path="res://Data/substance.gd" id="1_2w22g"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_uq4ni"]
+
+[sub_resource type="Resource" id="Resource_k0tln"]
+script = ExtResource("1_2w22g")
+name = "Copper"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_6fc0h"]
+script = ExtResource("1_2w22g")
+name = "Tin"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_2nws5"]
+script = ExtResource("1_2w22g")
+name = "Iron"
+amount = 1
+
+[resource]
+script = ExtResource("2_uq4ni")
+name = "Rule of Copper"
+reactants = Array[ExtResource("1_2w22g")]([SubResource("Resource_6fc0h"), SubResource("Resource_2nws5")])
+product = SubResource("Resource_k0tln")

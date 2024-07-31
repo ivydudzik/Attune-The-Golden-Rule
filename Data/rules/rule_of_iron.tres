@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=6 format=3 uid="uid://d38e2r0dwfw1m"]
+
+[ext_resource type="Script" path="res://Data/substance.gd" id="1_50bto"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_p3h40"]
+
+[sub_resource type="Resource" id="Resource_wyny0"]
+script = ExtResource("1_50bto")
+name = "Iron"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_0amq0"]
+script = ExtResource("1_50bto")
+name = "Lead"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_y10h8"]
+script = ExtResource("1_50bto")
+name = "Tin"
+amount = 1
+
+[resource]
+script = ExtResource("2_p3h40")
+name = "Rule of Iron"
+reactants = Array[ExtResource("1_50bto")]([SubResource("Resource_0amq0"), SubResource("Resource_y10h8")])
+product = SubResource("Resource_wyny0")

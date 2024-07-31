@@ -10,6 +10,8 @@ extends Node2D
 @onready var swaps_text : Label = $"UI/Swaps Text"
 @onready var infusion_text : Label = $"UI/Infusion Text"
 
+@onready var infuse_button = $"UI/Vertical Container/Infuse Button"
+
 @onready var metals : Line2D = $Metals
 @onready var available_metal_positions : Array = Array(metals.points)
 
@@ -22,7 +24,7 @@ extends Node2D
 @onready var available_infusions : int = total_infusions
 
 var metal_counts : Dictionary = {"Lead" = 0, "Tin" = 0, "Iron" = 0, "Copper" = 0, "Quicksilver" = 0, "Silver" = 0, "Gold" = 0,}
-@export var metal_rules : Array[Rule]
+@export var metal_rules : Array[AlchemyRule]
 
 const board_dimensions : Vector2i = Vector2i(5, 2)
 
@@ -41,7 +43,7 @@ func _ready() -> void:
 ## A "toggle cutscene" function to stop input handling and disable the infuse button
 func toggle_cutscene_mode() -> void:
 	## TODO STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
-	pass
+	infuse_button.disabled = !infuse_button.disabled
 
 ## An "infusion" function to conduct the infusion process when the infuse button is pressed
 func infuse() -> void:
@@ -63,50 +65,93 @@ func infuse() -> void:
 	available_swaps = swaps_per_infusion
 	available_infusions -= 1
 	update_ui_text()
+	toggle_cutscene_mode()
+
+func tween_animate(object : Object, property : String, final_val : Variant, duration : float, transition : Tween.TransitionType, should_await : bool) -> void:
+	assert(object.global_position, "Cannot tween move an object with no global_position.")
+	var tween = get_tree().create_tween()
+	tween.tween_property(object, property, final_val, duration).set_trans(transition)
+	if should_await:
+		await get_tree().create_timer(duration).timeout
+
 
 ## A card activation function to activate cards (visually and functionally) during infusion
 func activate_card(card : Card) -> void:
-	var tween = get_tree().create_tween()
-	tween.tween_property(card, "scale", Vector2(1.5, 1.5), 0.1).set_trans(Tween.TRANS_CUBIC)
-	await get_tree().create_timer(0.1).timeout
-
+	await tween_animate(card, "scale", Vector2(1.5, 1.5), 0.1, Tween.TRANS_CUBIC, true)
+	
 	if card.card_data.effect_type == "Add/Subtract":
 		# "Add" Code:
-		var metal : Node2D = METAL.instantiate()
-		metal.metal_type = card.card_data.metal_type
-		metals.add_child(metal)
-		# Move metal to random metals point
-		## TODO tween to this location
-		assert(len(available_metal_positions) != 0, "There are no remaining positions at which to place metals.")
-		var position_index : int = randi_range(0, len(available_metal_positions) - 1)
-		metal.global_position = available_metal_positions[position_index]
-		available_metal_positions.pop_at(position_index)
-		# Update metal counts
-		metal_counts[metal.metal_type] = 1
+		var offscreen_center_above : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, -ProjectSettings.get_setting("display/window/size/viewport_height")/2)
+		await create_metal(card.card_data.metal_type, offscreen_center_above)
 		react()
-		
-		#var tween2 = get_tree().create_tween()
-		#tween2.tween_property(card, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC)
-		#await get_tree().create_timer(0.25).timeout
+
 	elif card.card_data.effect_type == "Multiply/Divide":
 		## CRY
 		pass
-		#var metal : Node2D = METAL.instantiate()
-		#metal.metal_type = card.card_data.metal_type
-		#$"Board Container/Metals Grid Container".add_child(metal)
-		#metal.global_position = get_global_mouse_position()
 
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(card, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC)
 	await get_tree().create_timer(0.25).timeout
 
+func create_metal(metal_type : String, starting_position : Vector2):
+	var metal : Node2D = METAL.instantiate()
+	metal.metal_type = metal_type
+	metals.add_child(metal)
+	assert(len(available_metal_positions) != 0, "There are no remaining positions at which to place metals.")
+	var position_index : int = randi_range(0, len(available_metal_positions) - 1)
+	metal.global_position = starting_position
+	# Move metal from starting position to random metals point
+	await tween_animate(metal, "global_position", available_metal_positions[position_index], 0.5, Tween.TRANS_CUBIC, true)
+	available_metal_positions.pop_at(position_index)
+	# Update metal counts
+	metal_counts[metal.metal_type] += 1
+	print("[+1 ", metal.metal_type, "]")
+
 ## A "reaction" function to conduct the reactions that occur when the metal counts change
 func react() -> void:
-	#for rule in metal_rules:
-		#if rule.
-	#metal_counts
-	
-	pass
+	for rule : AlchemyRule in metal_rules:
+		if rule_met(rule, metal_counts): 
+			print(rule.name, " is triggered!")
+			# Play out reaction according to rule
+			
+			# Find reactant nodes
+			var reactant_nodes : Array[Metal] = []
+			for reactant : AlchemySubstance in rule.reactants:
+				var metal_nodes_to_find : int = reactant.amount
+				for metal_node : Metal in metals.get_children():
+					if metal_node.metal_type == reactant.name:
+						reactant_nodes.push_back(metal_node)
+						metal_nodes_to_find -= 1
+						if metal_nodes_to_find == 0:
+							break
+			
+			## Make metals collide
+			var screen_center : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, ProjectSettings.get_setting("display/window/size/viewport_height")/2)
+			for reactant_node : Metal in reactant_nodes:
+				available_metal_positions.push_back(reactant_node.global_position)
+				tween_animate(reactant_node, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, false)
+			await get_tree().create_timer(0.5).timeout
+			
+			# Destroy reactant nodes
+			for reactant_node : Metal in reactant_nodes:
+				metal_counts[reactant_node.metal_type] -= 1
+				print("[-1 ", reactant_node.metal_type, "]")
+				reactant_node.queue_free()
+			
+			# Create new metal on the board
+			assert(rule.product.amount == 1, "The code is currently written to only allow 1 product to be generated. Modify it to allow more.")
+			await create_metal(rule.product.name, screen_center)
+			react()
+			return
+
+## A "rule evaluation" function to check if the current metal counts are sufficient
+func rule_met(rule : AlchemyRule, substance_counts : Dictionary) -> bool:
+	# Check if there are insufficient reactants
+	for reactant in rule.reactants:
+		if substance_counts[reactant.name] < reactant.amount: 
+			return false
+	# If there are sufficient reactants, return true
+	return true
 
 ## A UI function which updates the text on screen when the values they represent change
 func update_ui_text() -> void:
