@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CardDataResource" load_steps=3 format=3 uid="uid://b5feguvm0nt28"]
+
+[ext_resource type="Texture2D" uid="uid://ccdt058n4mf4t" path="res://Art/king_base.png" id="1_hgkvg"]
+[ext_resource type="Script" path="res://Data/card_data.gd" id="2_hkcpq"]
+
+[resource]
+script = ExtResource("2_hkcpq")
+image = ExtResource("1_hgkvg")
+image_scaling = Vector2(1, 1)
+title = "The King"
+metal_type = "Iron"
+effect_type = "Add/Subtract"

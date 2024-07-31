@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Level" load_steps=3 format=3 uid="uid://cscweq5fl0te6"]
+
+[ext_resource type="Script" path="res://Data/level_data.gd" id="1_jbohb"]
+[ext_resource type="Resource" uid="uid://c73napwo73vtm" path="res://Data/Cards/the_devil.tres" id="2_dfbay"]
+
+[resource]
+script = ExtResource("1_jbohb")
+level = 1
+goal_metal = "Lead"
+starting_cards = Array[Resource("res://Data/card_data.gd")]([ExtResource("2_dfbay")])
+plays_per_infusion = 1
+swaps_per_infusion = 1
+total_infusions = 1

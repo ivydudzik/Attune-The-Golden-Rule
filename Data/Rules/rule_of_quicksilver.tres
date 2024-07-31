@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AlchemyRule" load_steps=7 format=3 uid="uid://c4j1rgunhf68g"]
+
+[ext_resource type="Script" path="res://Data/substance.gd" id="1_tew3b"]
+[ext_resource type="Script" path="res://Data/rule.gd" id="2_et78o"]
+
+[sub_resource type="Resource" id="Resource_jvkbn"]
+script = ExtResource("1_tew3b")
+name = "Quicksilver"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_5a3uj"]
+script = ExtResource("1_tew3b")
+name = "Lead"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_lg7ko"]
+script = ExtResource("1_tew3b")
+name = "Tin"
+amount = 1
+
+[sub_resource type="Resource" id="Resource_lip63"]
+script = ExtResource("1_tew3b")
+name = "Copper"
+amount = 1
+
+[resource]
+script = ExtResource("2_et78o")
+name = "Rule of Quicksilver"
+reactants = Array[ExtResource("1_tew3b")]([SubResource("Resource_5a3uj"), SubResource("Resource_lg7ko"), SubResource("Resource_lip63")])
+product = SubResource("Resource_jvkbn")

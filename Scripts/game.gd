@@ -3,8 +3,9 @@ extends Node2D
 ## Board Dimensions
 const board_dimensions : Vector2i = Vector2i(5, 2)
 
-## Metal Scene
+## Scenes
 const METAL : PackedScene = preload("res://Scenes/metal.tscn")
+const CARD = preload("res://Scenes/card.tscn")
 
 ## Board Container Nodes
 @onready var board : GridContainer= $"Play Container/Vertical Container/Board Grid Container"
@@ -23,16 +24,17 @@ const METAL : PackedScene = preload("res://Scenes/metal.tscn")
 @onready var infusion_text : Label = $"UI/Infusion Text"
 
 ## Infusion Button
-@onready var infuse_button = $"UI/Vertical Container/Infuse Button"
+@onready var infuse_button = $"Board Container/Vertical Container 2/Infuse Button"
 
 ## Metals Manager
 @onready var metals : Line2D = $Metals
 @onready var available_metal_positions : Array = Array(metals.points)
 
 ## Gameplay Resources
-@export var plays_per_infusion : int
-@export var swaps_per_infusion : int
-@export var total_infusions : int
+var level_data : Level = load("res://Data/Levels/level_"+str(ProgressionTracker.level)+".tres")
+@onready var plays_per_infusion : int = level_data.plays_per_infusion
+@onready var swaps_per_infusion : int = level_data.swaps_per_infusion
+@onready var total_infusions : int = level_data.total_infusions
 @onready var available_plays : int = plays_per_infusion
 @onready var available_swaps : int = swaps_per_infusion
 @onready var available_infusions : int = total_infusions
@@ -48,6 +50,11 @@ func card_idx_to_coords(index : int, board_width : int) -> Vector2:
 
 ## A constructor function which runs when the game enters the scene tree for the first time
 func _ready() -> void:
+	for card_data in level_data.starting_cards:
+		var card_node = CARD.instantiate()
+		card_node.card_data = card_data
+		hand.add_child(card_node)
+	
 	for card in hand.get_children():
 		card.connect("card_dropped", drop_card)
 	update_ui_text()
@@ -59,7 +66,6 @@ func toggle_cutscene_mode() -> void:
 
 ## An "infusion" function to conduct the infusion process when the infuse button is pressed
 func infuse() -> void:
-	## TODO LOSE STATE
 	# Play sound
 	audio_manager.infuse.play()
 	toggle_cutscene_mode()
@@ -74,13 +80,39 @@ func infuse() -> void:
 			continue
 		# Wait for the card activation animations to play before moving on
 		await activate_card(card)
+		if !get_tree(): return
 	# Reset plays and swaps
 	available_plays = plays_per_infusion
 	available_swaps = swaps_per_infusion
 	available_infusions -= 1
 	update_ui_text()
+	if available_infusions == 0:
+		await level_failure()
 	toggle_cutscene_mode()
 
+func level_failure():
+	print("Level failed.")
+	available_plays = 0
+	available_swaps = 0
+	update_ui_text()
+	# Play sound
+	audio_manager.loss.play()
+	await get_tree().create_timer(3).timeout
+	get_tree().reload_current_scene()
+	
+func level_victory(metal : Metal):
+	print("Level succeeded.")
+	# Play sound
+	audio_manager.victory.play()
+	var screen_center : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, ProjectSettings.get_setting("display/window/size/viewport_height")/2)
+	tween_animate(metal, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, 2)
+	await tween_animate(metal, "scale", Vector2(2.0, 2.0), 0.5, Tween.TRANS_CUBIC, 2)
+	await get_tree().create_timer(3).timeout
+	ProgressionTracker.level += 1
+	if ProgressionTracker.level == 3:
+		get_tree().quit()
+	get_tree().reload_current_scene()
+	
 func tween_animate(object : Object, property : String, final_val : Variant, duration : float, transition : Tween.TransitionType, z_idx_offset_during_anim : int = 0) -> void:
 	assert(object.global_position, "Cannot tween move an object with no global_position.")
 	object.z_index += z_idx_offset_during_anim
@@ -101,6 +133,7 @@ func activate_card(card : Card) -> void:
 		# "Add" Code:
 		var offscreen_center_above : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, -ProjectSettings.get_setting("display/window/size/viewport_height")/2)
 		await create_metal(card.card_data.metal_type, offscreen_center_above)
+		if !get_tree(): return
 	elif card.card_data.effect_type == "Multiply/Divide":
 		## CRY
 		pass
@@ -111,21 +144,24 @@ func activate_card(card : Card) -> void:
 	card.z_index -= 1
 	await react()
 
-func create_metal(metal_type : String, starting_position : Vector2):
+func create_metal(metal_type : String, starting_position : Vector2) -> void:
 	var metal : Node2D = METAL.instantiate()
 	metal.metal_type = metal_type
 	metals.add_child(metal)
 	assert(len(available_metal_positions) != 0, "There are no remaining positions at which to place metals.")
 	var position_index : int = randi_range(0, len(available_metal_positions) - 1)
 	metal.global_position = starting_position
-	# Play sound
-	audio_manager.metal_impact.play()
 	# Move metal from starting position to random metals point
 	await tween_animate(metal, "global_position", available_metal_positions[position_index], 0.5, Tween.TRANS_CUBIC, 2)
 	available_metal_positions.pop_at(position_index)
 	# Update metal counts
 	metal_counts[metal.metal_type] += 1
 	print("[+1 ", metal.metal_type, "]")
+	# Play sound
+	audio_manager.metal_impact.play()
+	# Check win condition
+	if metal.metal_type == level_data.goal_metal:
+		await level_victory(metal)
 
 
 ## A "reaction" function to conduct the reactions that occur when the metal counts change
@@ -163,6 +199,7 @@ func react() -> void:
 			# Create new metal on the board
 			assert(rule.product.amount == 1, "The code is currently written to only allow 1 product to be generated. Modify it to allow more.")
 			await create_metal(rule.product.name, screen_center)
+			if !get_tree(): return
 			await react()
 			return
 
@@ -249,7 +286,7 @@ func play_new_card(card : Control, index : int) -> void:
 		board_slot_placement_area.set_collision_layer_value(3, false)
 		board_slot_placement_area.set_collision_layer_value(4, true)
 		# Make new card look for full slots as well as empty
-		var card_placement_area : Area2D = card.get_child(0).get_child(2)
+		var card_placement_area : Area2D = card.placement_area
 		card_placement_area.set_collision_mask_value(4, true)
 		# Subtract 1 from the remaining available plays
 		available_plays -= 1

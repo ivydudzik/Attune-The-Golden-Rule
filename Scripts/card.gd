@@ -14,9 +14,19 @@ var drag_start : Vector2
 var offset : Vector2
 var slot : Panel = null
 
+@onready var placement_area = $"Card Panel/Placement Area"
+@onready var area = $"Card Panel/Area"
+
+
 func _ready() -> void:
 	assert(card_data, "No card data provided for card " + str(get_index()) + " in hand.")
 	$"Card Panel/Label".text = card_data.title
+	$"Card Panel/Sprite".texture = card_data.image
+	$"Card Panel/Sprite".scale = card_data.image_scaling
+	if card_data.effect_type == "Add/Subtract":
+		$"Card Panel/Multiply Label".hide()
+	else:
+		$"Card Panel/Add Label".hide()
 
 # This card is not a nullcard
 func isNullcard() -> bool:
@@ -67,8 +77,8 @@ func _on_area_mouse_entered() -> void:
 func _on_area_mouse_exited() -> void:
 	hovering = false
 
-func _on_placement_area_area_entered(area) -> void:
-	slot = area.get_parent()
+func _on_placement_area_area_entered(new_area) -> void:
+	slot = new_area.get_parent()
 
 func _on_placement_area_area_exited(_area) -> void:
 	slot = null
