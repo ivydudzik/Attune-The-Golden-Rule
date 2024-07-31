@@ -1,34 +1,45 @@
 extends Node2D
 
+## Board Dimensions
+const board_dimensions : Vector2i = Vector2i(5, 2)
+
+## Metal Scene
+const METAL : PackedScene = preload("res://Scenes/metal.tscn")
+
+## Board Container Nodes
 @onready var board : GridContainer= $"Play Container/Vertical Container/Board Grid Container"
 @onready var hand : HBoxContainer = $"Play Container/Hand Container"
 @onready var board_slots : GridContainer = $"Board Container/Vertical Container/Grid Container"
 
+## Audio Manager Node
+@onready var audio_manager = $"Audio Manager"
+
+## Board Slot Count
 @onready var board_slot_count : int = len(board.get_children())
 
+## Gameplay Resource Label Nodes
 @onready var plays_text : Label = $"UI/Plays Text"
 @onready var swaps_text : Label = $"UI/Swaps Text"
 @onready var infusion_text : Label = $"UI/Infusion Text"
 
+## Infusion Button
 @onready var infuse_button = $"UI/Vertical Container/Infuse Button"
 
+## Metals Manager
 @onready var metals : Line2D = $Metals
 @onready var available_metal_positions : Array = Array(metals.points)
 
+## Gameplay Resources
 @export var plays_per_infusion : int
 @export var swaps_per_infusion : int
 @export var total_infusions : int
-
 @onready var available_plays : int = plays_per_infusion
 @onready var available_swaps : int = swaps_per_infusion
 @onready var available_infusions : int = total_infusions
 
+## Alchemy Tracking
 var metal_counts : Dictionary = {"Lead" = 0, "Tin" = 0, "Iron" = 0, "Copper" = 0, "Quicksilver" = 0, "Silver" = 0, "Gold" = 0,}
 @export var metal_rules : Array[AlchemyRule]
-
-const board_dimensions : Vector2i = Vector2i(5, 2)
-
-const METAL : PackedScene = preload("res://Scenes/metal.tscn")
 
 ## A utility function to convert card index to board coordinate
 func card_idx_to_coords(index : int, board_width : int) -> Vector2:
@@ -49,6 +60,8 @@ func toggle_cutscene_mode() -> void:
 ## An "infusion" function to conduct the infusion process when the infuse button is pressed
 func infuse() -> void:
 	## TODO LOSE STATE
+	# Play sound
+	audio_manager.infuse.play()
 	toggle_cutscene_mode()
 	for index in board_slot_count:
 		var card : Control = board.get_child(index)
@@ -79,6 +92,9 @@ func tween_animate(object : Object, property : String, final_val : Variant, dura
 
 ## A card activation function to activate cards (visually and functionally) during infusion
 func activate_card(card : Card) -> void:
+	# Play sound
+	audio_manager.activate_card.play()
+	card.z_index += 1
 	await tween_animate(card, "scale", Vector2(1.5, 1.5), 0.1, Tween.TRANS_CUBIC)
 	
 	if card.card_data.effect_type == "Add/Subtract":
@@ -92,7 +108,8 @@ func activate_card(card : Card) -> void:
 		printerr("A card was activated that did not have a valid effect type, invalid effect type: ", card.card_data.effect_type)
 
 	await tween_animate(card, "scale", Vector2(1.0, 1.0), 0.25, Tween.TRANS_CUBIC)
-	react()
+	card.z_index -= 1
+	await react()
 
 func create_metal(metal_type : String, starting_position : Vector2):
 	var metal : Node2D = METAL.instantiate()
@@ -101,12 +118,15 @@ func create_metal(metal_type : String, starting_position : Vector2):
 	assert(len(available_metal_positions) != 0, "There are no remaining positions at which to place metals.")
 	var position_index : int = randi_range(0, len(available_metal_positions) - 1)
 	metal.global_position = starting_position
+	# Play sound
+	audio_manager.metal_impact.play()
 	# Move metal from starting position to random metals point
-	await tween_animate(metal, "global_position", available_metal_positions[position_index], 0.5, Tween.TRANS_CUBIC, 1)
+	await tween_animate(metal, "global_position", available_metal_positions[position_index], 0.5, Tween.TRANS_CUBIC, 2)
 	available_metal_positions.pop_at(position_index)
 	# Update metal counts
 	metal_counts[metal.metal_type] += 1
 	print("[+1 ", metal.metal_type, "]")
+
 
 ## A "reaction" function to conduct the reactions that occur when the metal counts change
 func react() -> void:
@@ -127,11 +147,11 @@ func react() -> void:
 						if metal_nodes_to_find == 0:
 							break
 			
-			## Make metals collide
+			# Make metals collide
 			var screen_center : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, ProjectSettings.get_setting("display/window/size/viewport_height")/2)
 			for reactant_node : Metal in reactant_nodes:
 				available_metal_positions.push_back(reactant_node.global_position)
-				tween_animate(reactant_node, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, 1)
+				tween_animate(reactant_node, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, 2)
 			await get_tree().create_timer(0.5).timeout
 			
 			# Destroy reactant nodes
@@ -143,7 +163,7 @@ func react() -> void:
 			# Create new metal on the board
 			assert(rule.product.amount == 1, "The code is currently written to only allow 1 product to be generated. Modify it to allow more.")
 			await create_metal(rule.product.name, screen_center)
-			react()
+			await react()
 			return
 
 ## A "rule evaluation" function to check if the current metal counts are sufficient
@@ -152,8 +172,11 @@ func rule_met(rule : AlchemyRule, substance_counts : Dictionary) -> bool:
 	for reactant in rule.reactants:
 		if substance_counts[reactant.name] < reactant.amount: 
 			return false
+	# Play sound
+	audio_manager.reaction.play()
 	# If there are sufficient reactants, return true
 	return true
+	
 
 ## A UI function which updates the text on screen when the values they represent change
 func update_ui_text() -> void:
@@ -191,6 +214,8 @@ func move_card(card : Control, index : int) -> void:
 		print("Cannot move card to slot ", index, " from ", old_index, " because it is not adjacent.")
 		card.return_to_drag_start()
 		return
+	# Play sound
+	audio_manager.swap_cards.play()
 	print("Moving card to slot ", index, " from ", old_index, ".")
 	if board.get_child(index).isNullcard():
 		# Switch which slot is on the "full" and "empty" collision layters
@@ -210,6 +235,8 @@ func move_card(card : Control, index : int) -> void:
 func play_new_card(card : Control, index : int) -> void:
 	print("Playing card to slot ", index, ".")
 	if board.get_child(index).isNullcard():
+		# Play sound
+		audio_manager.play_card.play()
 		# Delete the Nullcard
 		board.get_child(index).queue_free()
 		# Remove the new card from the hand

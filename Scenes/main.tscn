@@ -1,17 +1,28 @@
-[gd_scene load_steps=20 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=31 format=3 uid="uid://evwpj63iljro"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_5lj0w"]
 [ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="1_a1c0o"]
 [ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
 [ext_resource type="Resource" uid="uid://d38e2r0dwfw1m" path="res://Data/rules/rule_of_iron.tres" id="2_lrccn"]
 [ext_resource type="Resource" uid="uid://bybtxm72ahrj" path="res://Data/rules/rule_of_copper.tres" id="3_dfpip"]
+[ext_resource type="Script" path="res://Scenes/audio_manager.gd" id="4_p0qnn"]
+[ext_resource type="AudioStream" uid="uid://dor3cpbu46gcc" path="res://Audio/Attune_TGR_SFX_activate_card.wav" id="6_3kyu8"]
 [ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
+[ext_resource type="AudioStream" uid="uid://cjjc8kic7l2fm" path="res://Audio/Attune_TGR_SFX_card_1.wav" id="7_5cjdg"]
+[ext_resource type="AudioStream" uid="uid://dhjtug5d6my8a" path="res://Audio/Attune_TGR_SFX_drag_1.wav" id="8_dujlq"]
+[ext_resource type="AudioStream" uid="uid://qxa4mhvtsawt" path="res://Audio/Attune_TGR_SFX_elements_on_table_1.wav" id="9_gto0i"]
 [ext_resource type="Script" path="res://Data/card_data.gd" id="9_jh3nf"]
 [ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
 [ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
+[ext_resource type="AudioStream" uid="uid://cy28nlecylirs" path="res://Audio/Attune_TGR_SFX_infuse.wav" id="10_ky3ff"]
+[ext_resource type="AudioStream" uid="uid://cfkdmc8tyhjda" path="res://Audio/Attune_TGR_SFX_moving_1.wav" id="11_7w7vq"]
 [ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
 [ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="11_yl3pw"]
+[ext_resource type="AudioStream" uid="uid://cnsrugp0ohk5t" path="res://Audio/Attune_TGR_SFX_UI_button_1.wav" id="12_f53e1"]
+[ext_resource type="AudioStream" uid="uid://bks8jv20f7t2s" path="res://Audio/Attune_TGR_SFX_victory.wav" id="13_6d3js"]
+[ext_resource type="AudioStream" uid="uid://b7oksvx7t4haw" path="res://Audio/Attune_TGR_SFX_UI_button_2.wav" id="14_1wbeb"]
 [ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
+[ext_resource type="AudioStream" uid="uid://bin6i4okgwxs" path="res://Audio/Attune_TGR_SFX_failure.wav" id="14_kcnqf"]
 
 [sub_resource type="Resource" id="Resource_jeby8"]
 script = ExtResource("9_jh3nf")
@@ -59,6 +70,48 @@ plays_per_infusion = 5
 swaps_per_infusion = 3
 total_infusions = 3
 metal_rules = Array[Resource("res://Data/rule.gd")]([ExtResource("2_lrccn"), ExtResource("3_dfpip")])
+
+[node name="Audio Manager" type="Node" parent="."]
+script = ExtResource("4_p0qnn")
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("14_3ab43")
+volume_db = -5.0
+autoplay = true
+
+[node name="Activate Card" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("6_3kyu8")
+volume_db = -10.0
+
+[node name="Play Card" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("7_5cjdg")
+
+[node name="Drag Card" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("8_dujlq")
+
+[node name="Metal Impact" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("9_gto0i")
+volume_db = -10.0
+pitch_scale = 1.25
+
+[node name="Infuse" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("10_ky3ff")
+volume_db = 5.0
+
+[node name="Swap Cards" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("11_7w7vq")
+
+[node name="UI Button" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("12_f53e1")
+
+[node name="Victory" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("13_6d3js")
+
+[node name="Reaction" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("14_1wbeb")
+
+[node name="Loss" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("14_kcnqf")
 
 [node name="Board Container" type="Control" parent="."]
 layout_mode = 3
@@ -365,10 +418,5 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 820
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_3ab43")
-volume_db = -10.0
-autoplay = true
 
 [connection signal="pressed" from="UI/Vertical Container/Infuse Button" to="." method="_on_infuse_button_pressed"]
