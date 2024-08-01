@@ -43,6 +43,9 @@ var level_data : Level = load("res://Data/Levels/level_"+str(ProgressionTracker.
 var metal_counts : Dictionary = {"Lead" = 0, "Tin" = 0, "Iron" = 0, "Copper" = 0, "Quicksilver" = 0, "Silver" = 0, "Gold" = 0,}
 @export var metal_rules : Array[AlchemyRule]
 
+## SOME FUNCTIONS IN THIS CODE RETURN BOOL VALUES ONLY TO FLAG "FALSE" IF AN 
+## END-STATE HAS BEEN REACHED (AND THEREFORE THE GAME SHOULD STOP PROCESSING)
+
 ## A utility function to convert card index to board coordinate
 func card_idx_to_coords(index : int, board_width : int) -> Vector2:
 	@warning_ignore("integer_division")
@@ -50,6 +53,7 @@ func card_idx_to_coords(index : int, board_width : int) -> Vector2:
 
 ## A constructor function which runs when the game enters the scene tree for the first time
 func _ready() -> void:
+	# Add starting cards to hand
 	for card_data in level_data.starting_cards:
 		var card_node = CARD.instantiate()
 		card_node.card_data = card_data
@@ -61,7 +65,12 @@ func _ready() -> void:
 
 ## A "toggle cutscene" function to stop input handling and disable the infuse button
 func toggle_cutscene_mode() -> void:
-	## TODO STOP INPUT HANDLING FOR CARDS, DISABLE INFUSE BUTTON
+	for index in board_slot_count:
+		var card : Control = board.get_child(index)
+		# Skip null cards
+		if card.isNullcard(): continue
+		# Mark cards as returning so they cannot be moved
+		card.returning = !card.returning
 	infuse_button.disabled = !infuse_button.disabled
 
 ## An "infusion" function to conduct the infusion process when the infuse button is pressed
@@ -104,11 +113,13 @@ func level_victory(metal : Metal):
 	print("Level succeeded.")
 	# Play sound
 	audio_manager.victory.play()
+	# Move winning metal to center of screen and zoom in on it
 	var screen_center : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width")/2, ProjectSettings.get_setting("display/window/size/viewport_height")/2)
 	tween_animate(metal, "global_position", screen_center, 0.5, Tween.TRANS_CUBIC, 2)
 	await tween_animate(metal, "scale", Vector2(2.0, 2.0), 0.5, Tween.TRANS_CUBIC, 2)
 	metal.z_index += 2
 	await get_tree().create_timer(3).timeout
+	# Increment the level in the progression tracker
 	ProgressionTracker.level += 1
 	if ProgressionTracker.level == 4:
 		ProgressionTracker.level = 1

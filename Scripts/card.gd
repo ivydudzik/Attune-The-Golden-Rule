@@ -4,6 +4,7 @@ signal card_dropped(card : Panel, index : int)
 
 # Data Variables
 @export var card_data : CardDataResource
+@export var is_display_card : bool = false
 var flipped : bool = false
 
 # Manipulation Variables
@@ -58,7 +59,8 @@ func _process(delta) -> void:
 				emit_signal("card_dropped", self, slot.get_index())
 			# Otherwise, send the card back to where it was dragged from
 			else:
-				return_to_drag_start()
+				if !is_display_card:
+					return_to_drag_start()
 	elif hovering:
 		# Set card to hovering color
 		modulate = "bcbcbc"

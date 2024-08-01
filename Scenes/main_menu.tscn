@@ -1,0 +1,279 @@
+[gd_scene load_steps=19 format=3 uid="uid://dw234usu7ca5n"]
+
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_re2o5"]
+[ext_resource type="Texture2D" uid="uid://lrvou7mp3fnh" path="res://Art/attune.png" id="2_dr3o0"]
+[ext_resource type="Script" path="res://Scenes/menu_music_manager.gd" id="2_i8qpf"]
+[ext_resource type="FontFile" uid="uid://dxy8n4pwwyead" path="res://Fonts/Libre Baskerville/LibreBaskerville-Italic.ttf" id="7_qastq"]
+[ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="8_6x83f"]
+[ext_resource type="PackedScene" uid="uid://bgcnlirdb27w2" path="res://Scenes/card.tscn" id="8_mp5sm"]
+[ext_resource type="Resource" uid="uid://b5feguvm0nt28" path="res://Data/Cards/the_king.tres" id="9_vkkv7"]
+[ext_resource type="Resource" uid="uid://c73napwo73vtm" path="res://Data/Cards/the_devil.tres" id="10_nc5md"]
+[ext_resource type="Resource" uid="uid://l8w6afxy21c4" path="res://Data/Cards/the_queen.tres" id="11_x4dnb"]
+[ext_resource type="Resource" uid="uid://m28jifxkyao0" path="res://Data/Cards/the_sphinx.tres" id="12_c52h0"]
+[ext_resource type="Resource" uid="uid://otmf3tpciv8x" path="res://Data/Cards/the_nomad.tres" id="13_ai3iv"]
+[ext_resource type="Texture2D" uid="uid://8combq1lsb42" path="res://Art/attune_lines.png" id="14_dpv82"]
+[ext_resource type="Resource" uid="uid://ssbak86ficpi" path="res://Data/Cards/the_warrior.tres" id="14_twrvi"]
+[ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="20_xclti"]
+[ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="21_cja35"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_52vob"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 1
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vgs5"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_oatni"]
+font = ExtResource("7_qastq")
+font_size = 32
+font_color = Color(0.658824, 0.294118, 0.34902, 1)
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_re2o5")
+
+[node name="Audio Manager" type="Node" parent="."]
+script = ExtResource("2_i8qpf")
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio Manager"]
+stream = ExtResource("8_6x83f")
+volume_db = -15.0
+autoplay = true
+
+[node name="Board Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Table" type="ColorRect" parent="Board Container"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.249723, 0.123191, 0.0704354, 1)
+
+[node name="HandArea" type="ColorRect" parent="Board Container"]
+visible = false
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -310.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.164706)
+
+[node name="Velvet Cover" type="ColorRect" parent="Board Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -719.5
+offset_top = -540.0
+offset_right = 719.5
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.229515, 0.0963688, 0.266024, 1)
+
+[node name="Vertical Container" type="VBoxContainer" parent="Board Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -471.5
+offset_bottom = 471.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 105
+alignment = 1
+
+[node name="Title" type="Control" parent="Board Container/Vertical Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Shadow" type="Panel" parent="Board Container/Vertical Container/Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -125.0
+offset_right = 140.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_52vob")
+
+[node name="Attune Panel" type="Panel" parent="Board Container/Vertical Container/Title"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -125.0
+offset_right = 140.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1vgs5")
+
+[node name="Attune" type="TextureRect" parent="Board Container/Vertical Container/Title/Attune Panel"]
+layout_mode = 0
+offset_right = 282.0
+offset_bottom = 250.0
+texture = ExtResource("2_dr3o0")
+
+[node name="H Separator 2" type="HSeparator" parent="Board Container/Vertical Container"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 50
+
+[node name="Play Button" type="Button" parent="Board Container/Vertical Container"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("20_xclti")
+theme_override_font_sizes/font_size = 48
+text = "PLAY"
+
+[node name="Infusion2" type="Sprite2D" parent="Board Container/Vertical Container/Play Button"]
+modulate = Color(0.658824, 0.294118, 0.34902, 1)
+position = Vector2(-55, 33)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_cja35")
+
+[node name="Infusion3" type="Sprite2D" parent="Board Container/Vertical Container/Play Button"]
+modulate = Color(0.658824, 0.294118, 0.34902, 1)
+position = Vector2(309, 35)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_cja35")
+
+[node name="Infusion4" type="Sprite2D" parent="Board Container/Vertical Container/Play Button"]
+modulate = Color(0.952941, 0.878431, 0.0823529, 1)
+position = Vector2(-56.75, 30.75)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_cja35")
+
+[node name="Infusion6" type="Sprite2D" parent="Board Container/Vertical Container/Play Button"]
+modulate = Color(0.952941, 0.878431, 0.0823529, 1)
+position = Vector2(-56.75, 30.75)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_cja35")
+
+[node name="Infusion5" type="Sprite2D" parent="Board Container/Vertical Container/Play Button"]
+modulate = Color(0.952941, 0.878431, 0.0823529, 1)
+position = Vector2(307.25, 32.75)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_cja35")
+
+[node name="Attribute Text" type="Label" parent="Board Container"]
+offset_left = 704.0
+offset_top = 1010.0
+offset_right = 1199.0
+offset_bottom = 1051.0
+size_flags_horizontal = 4
+text = "A game by Naia, Gareg, and Beep"
+label_settings = SubResource("LabelSettings_oatni")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttuneLines" type="Sprite2D" parent="Board Container"]
+modulate = Color(1, 1, 1, 0.533333)
+position = Vector2(964, 365)
+texture = ExtResource("14_dpv82")
+
+[node name="Cards" type="Node2D" parent="."]
+
+[node name="Card Origin" type="Marker2D" parent="Cards"]
+position = Vector2(-12, -102)
+
+[node name="Card" parent="Cards/Card Origin" instance=ExtResource("8_mp5sm")]
+rotation = -0.268256
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("9_vkkv7")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Card Origin 1" type="Marker2D" parent="Cards"]
+position = Vector2(185, 170)
+
+[node name="Card 1" parent="Cards/Card Origin 1" instance=ExtResource("8_mp5sm")]
+rotation = 0.261799
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("10_nc5md")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Card Origin 2" type="Marker2D" parent="Cards"]
+position = Vector2(-127, 838)
+
+[node name="Card 2" parent="Cards/Card Origin 2" instance=ExtResource("8_mp5sm")]
+rotation = -0.523599
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("11_x4dnb")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Card Origin 3" type="Marker2D" parent="Cards"]
+position = Vector2(1583, -151)
+
+[node name="Card 3" parent="Cards/Card Origin 3" instance=ExtResource("8_mp5sm")]
+rotation = 0.261799
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("12_c52h0")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Card Origin 4" type="Marker2D" parent="Cards"]
+position = Vector2(1366, 357)
+
+[node name="Card 4" parent="Cards/Card Origin 4" instance=ExtResource("8_mp5sm")]
+rotation = -0.261799
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("13_ai3iv")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Card Origin 5" type="Marker2D" parent="Cards"]
+position = Vector2(1716, 634)
+
+[node name="Card 5" parent="Cards/Card Origin 5" instance=ExtResource("8_mp5sm")]
+rotation = 0.523599
+scale = Vector2(2, 2)
+pivot_offset = Vector2(0, 0)
+card_data = ExtResource("14_twrvi")
+is_display_card = true
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Board Container/Vertical Container/Play Button" to="." method="_on_play_button_pressed"]

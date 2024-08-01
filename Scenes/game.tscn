@@ -1,82 +1,87 @@
-[gd_scene load_steps=27 format=3 uid="uid://evwpj63iljro"]
+[gd_scene load_steps=29 format=3 uid="uid://evwpj63iljro"]
 
-[ext_resource type="Script" path="res://Scripts/game.gd" id="1_5lj0w"]
-[ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="1_cv1wv"]
-[ext_resource type="Resource" uid="uid://d38e2r0dwfw1m" path="res://Data/Rules/rule_of_iron.tres" id="2_lrccn"]
-[ext_resource type="Resource" uid="uid://bybtxm72ahrj" path="res://Data/Rules/rule_of_copper.tres" id="3_dfpip"]
-[ext_resource type="Script" path="res://Scenes/audio_manager.gd" id="4_p0qnn"]
-[ext_resource type="Resource" uid="uid://c4j1rgunhf68g" path="res://Data/Rules/rule_of_quicksilver.tres" id="4_seiig"]
-[ext_resource type="Resource" uid="uid://bdi5q6f7mcisb" path="res://Data/Rules/rule_of_silver.tres" id="5_mixvd"]
-[ext_resource type="AudioStream" uid="uid://dor3cpbu46gcc" path="res://Audio/Attune_TGR_SFX_activate_card.wav" id="6_3kyu8"]
-[ext_resource type="Resource" uid="uid://b1qg2ffwjxa1h" path="res://Data/Rules/rule_of_gold.tres" id="6_3q1yg"]
-[ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="6_iowam"]
-[ext_resource type="AudioStream" uid="uid://cjjc8kic7l2fm" path="res://Audio/Attune_TGR_SFX_card_1.wav" id="7_5cjdg"]
-[ext_resource type="AudioStream" uid="uid://dhjtug5d6my8a" path="res://Audio/Attune_TGR_SFX_drag_1.wav" id="8_dujlq"]
-[ext_resource type="AudioStream" uid="uid://qxa4mhvtsawt" path="res://Audio/Attune_TGR_SFX_elements_on_table_1.wav" id="9_gto0i"]
-[ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="9_vyirb"]
-[ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="10_3ws7t"]
-[ext_resource type="AudioStream" uid="uid://cy28nlecylirs" path="res://Audio/Attune_TGR_SFX_infuse.wav" id="10_ky3ff"]
-[ext_resource type="AudioStream" uid="uid://cfkdmc8tyhjda" path="res://Audio/Attune_TGR_SFX_moving_1.wav" id="11_7w7vq"]
-[ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="11_r4mkl"]
-[ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="11_yl3pw"]
-[ext_resource type="AudioStream" uid="uid://cnsrugp0ohk5t" path="res://Audio/Attune_TGR_SFX_UI_button_1.wav" id="12_f53e1"]
-[ext_resource type="AudioStream" uid="uid://bks8jv20f7t2s" path="res://Audio/Attune_TGR_SFX_victory.wav" id="13_6d3js"]
-[ext_resource type="AudioStream" uid="uid://b7oksvx7t4haw" path="res://Audio/Attune_TGR_SFX_UI_button_2.wav" id="14_1wbeb"]
-[ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="14_3ab43"]
-[ext_resource type="AudioStream" uid="uid://bin6i4okgwxs" path="res://Audio/Attune_TGR_SFX_failure.wav" id="14_kcnqf"]
-[ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="25_wqlj0"]
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_p1ult"]
+[ext_resource type="Resource" uid="uid://d38e2r0dwfw1m" path="res://Data/Rules/rule_of_iron.tres" id="2_r6hwl"]
+[ext_resource type="Resource" uid="uid://bybtxm72ahrj" path="res://Data/Rules/rule_of_copper.tres" id="3_wi0uc"]
+[ext_resource type="Resource" uid="uid://c4j1rgunhf68g" path="res://Data/Rules/rule_of_quicksilver.tres" id="4_yx0ua"]
+[ext_resource type="Resource" uid="uid://bdi5q6f7mcisb" path="res://Data/Rules/rule_of_silver.tres" id="5_8llnr"]
+[ext_resource type="Resource" uid="uid://b1qg2ffwjxa1h" path="res://Data/Rules/rule_of_gold.tres" id="6_bf41w"]
+[ext_resource type="Script" path="res://Scenes/audio_manager.gd" id="7_sitnk"]
+[ext_resource type="AudioStream" uid="uid://c4cuq0isety65" path="res://Audio/Attune_TGR_BGM_90.wav" id="8_77bh0"]
+[ext_resource type="AudioStream" uid="uid://dor3cpbu46gcc" path="res://Audio/Attune_TGR_SFX_activate_card.wav" id="9_njhdj"]
+[ext_resource type="AudioStream" uid="uid://cjjc8kic7l2fm" path="res://Audio/Attune_TGR_SFX_card_1.wav" id="10_5ir33"]
+[ext_resource type="AudioStream" uid="uid://dhjtug5d6my8a" path="res://Audio/Attune_TGR_SFX_drag_1.wav" id="11_3dsbs"]
+[ext_resource type="AudioStream" uid="uid://qxa4mhvtsawt" path="res://Audio/Attune_TGR_SFX_elements_on_table_1.wav" id="12_4tqqv"]
+[ext_resource type="AudioStream" uid="uid://cy28nlecylirs" path="res://Audio/Attune_TGR_SFX_infuse.wav" id="13_5ul41"]
+[ext_resource type="AudioStream" uid="uid://cfkdmc8tyhjda" path="res://Audio/Attune_TGR_SFX_moving_1.wav" id="14_6p3tw"]
+[ext_resource type="AudioStream" uid="uid://cnsrugp0ohk5t" path="res://Audio/Attune_TGR_SFX_UI_button_1.wav" id="15_o1465"]
+[ext_resource type="AudioStream" uid="uid://bks8jv20f7t2s" path="res://Audio/Attune_TGR_SFX_victory.wav" id="16_5bvai"]
+[ext_resource type="AudioStream" uid="uid://b7oksvx7t4haw" path="res://Audio/Attune_TGR_SFX_UI_button_2.wav" id="17_pwpig"]
+[ext_resource type="AudioStream" uid="uid://bin6i4okgwxs" path="res://Audio/Attune_TGR_SFX_failure.wav" id="18_3hyan"]
+[ext_resource type="PackedScene" uid="uid://d1p6hlurha2gt" path="res://Scenes/card_slot.tscn" id="19_e7c01"]
+[ext_resource type="FontFile" uid="uid://3p3mkssrw5vd" path="res://Fonts/Libre Baskerville/LibreBaskerville-Bold.ttf" id="20_g1fce"]
+[ext_resource type="Texture2D" uid="uid://d2hkdumo3ea2k" path="res://Art/Ivy/infusion.png" id="21_12r5x"]
+[ext_resource type="PackedScene" uid="uid://b4xuo6ufotbox" path="res://Scenes/nullcard.tscn" id="22_hw2fv"]
+[ext_resource type="Texture2D" uid="uid://562gpwgxeagp" path="res://Art/Ivy/playcard.png" id="23_3hkw0"]
+[ext_resource type="Texture2D" uid="uid://hqkm558ur5bq" path="res://Art/Ivy/swapcard.png" id="24_38jum"]
+[ext_resource type="PackedScene" uid="uid://iakat0jsaks2" path="res://Scenes/metal.tscn" id="25_3vxin"]
+[ext_resource type="FontFile" uid="uid://dxy8n4pwwyead" path="res://Fonts/Libre Baskerville/LibreBaskerville-Italic.ttf" id="25_ld8t5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_oatni"]
-font = ExtResource("10_3ws7t")
+font = ExtResource("20_g1fce")
 font_size = 48
 
+[sub_resource type="LabelSettings" id="LabelSettings_nw8x4"]
+font = ExtResource("25_ld8t5")
+font_size = 32
+
 [node name="Game" type="Node2D"]
-script = ExtResource("1_5lj0w")
-metal_rules = Array[Resource("res://Data/rule.gd")]([ExtResource("2_lrccn"), ExtResource("3_dfpip"), ExtResource("4_seiig"), ExtResource("5_mixvd"), ExtResource("6_3q1yg")])
+script = ExtResource("1_p1ult")
+metal_rules = Array[Resource("res://Data/rule.gd")]([ExtResource("2_r6hwl"), ExtResource("3_wi0uc"), ExtResource("4_yx0ua"), ExtResource("5_8llnr"), ExtResource("6_bf41w")])
 
 [node name="Audio Manager" type="Node" parent="."]
-script = ExtResource("4_p0qnn")
+script = ExtResource("7_sitnk")
 
 [node name="Music" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("14_3ab43")
+stream = ExtResource("8_77bh0")
 volume_db = -15.0
 autoplay = true
 
 [node name="Activate Card" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("6_3kyu8")
+stream = ExtResource("9_njhdj")
 volume_db = -15.0
 
 [node name="Play Card" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("7_5cjdg")
+stream = ExtResource("10_5ir33")
 
 [node name="Drag Card" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("8_dujlq")
+stream = ExtResource("11_3dsbs")
 
 [node name="Metal Impact" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("9_gto0i")
+stream = ExtResource("12_4tqqv")
 volume_db = -10.0
 pitch_scale = 1.25
 
 [node name="Infuse" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("10_ky3ff")
+stream = ExtResource("13_5ul41")
 volume_db = 5.0
 
 [node name="Swap Cards" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("11_7w7vq")
+stream = ExtResource("14_6p3tw")
 
 [node name="UI Button" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("12_f53e1")
+stream = ExtResource("15_o1465")
 
 [node name="Victory" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("13_6d3js")
+stream = ExtResource("16_5bvai")
 
 [node name="Reaction" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("14_1wbeb")
+stream = ExtResource("17_pwpig")
 volume_db = -5.0
 pitch_scale = 0.5
 
 [node name="Loss" type="AudioStreamPlayer" parent="Audio Manager"]
-stream = ExtResource("14_kcnqf")
+stream = ExtResource("18_3hyan")
 
 [node name="Board Container" type="Control" parent="."]
 layout_mode = 3
@@ -140,40 +145,40 @@ theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 5
 
-[node name="Card Slot 1" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 1" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
-[node name="Card Slot 2" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 2" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 
-[node name="Card Slot 3" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
-layout_mode = 2
-slot_type = "Dormant"
-
-[node name="Card Slot 4" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 3" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
-[node name="Card Slot 5" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
-layout_mode = 2
-
-[node name="Card Slot 6" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 4" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
-[node name="Card Slot 7" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 5" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
+layout_mode = 2
+
+[node name="Card Slot 6" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
-[node name="Card Slot 8" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 7" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
-[node name="Card Slot 9" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 8" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
+layout_mode = 2
+slot_type = "Dormant"
+
+[node name="Card Slot 9" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 
-[node name="Card Slot 10" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("1_cv1wv")]
+[node name="Card Slot 10" parent="Board Container/Vertical Container/Grid Container" instance=ExtResource("19_e7c01")]
 layout_mode = 2
 slot_type = "Dormant"
 
@@ -200,7 +205,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
-theme_override_fonts/font = ExtResource("10_3ws7t")
+theme_override_fonts/font = ExtResource("20_g1fce")
 theme_override_font_sizes/font_size = 48
 text = "INFUSE"
 
@@ -208,13 +213,13 @@ text = "INFUSE"
 modulate = Color(0.658824, 0.294118, 0.34902, 1)
 position = Vector2(-55, 33)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_yl3pw")
+texture = ExtResource("21_12r5x")
 
 [node name="Infusion3" type="Sprite2D" parent="Board Container/Vertical Container 2/Infuse Button"]
 modulate = Color(0.658824, 0.294118, 0.34902, 1)
 position = Vector2(309, 35)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_yl3pw")
+texture = ExtResource("21_12r5x")
 
 [node name="H Separator" type="HSeparator" parent="Board Container/Vertical Container 2"]
 modulate = Color(1, 1, 1, 0)
@@ -271,34 +276,34 @@ theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 5
 
-[node name="Null" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 2" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 2" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 3" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 3" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 4" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 4" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 5" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 5" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 6" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 6" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 7" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 7" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 8" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 8" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 9" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 9" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
-[node name="Null 10" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("6_iowam")]
+[node name="Null 10" parent="Play Container/Vertical Container/Board Grid Container" instance=ExtResource("22_hw2fv")]
 layout_mode = 2
 
 [node name="H Separator" type="HSeparator" parent="Play Container/Vertical Container"]
@@ -319,7 +324,7 @@ mouse_filter = 2
 modulate = Color(0.705882, 0.486275, 0.360784, 1)
 position = Vector2(53, 277)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_yl3pw")
+texture = ExtResource("21_12r5x")
 
 [node name="Infusion Text" type="Label" parent="UI"]
 layout_mode = 0
@@ -334,7 +339,7 @@ label_settings = SubResource("LabelSettings_oatni")
 modulate = Color(0.705882, 0.486275, 0.360784, 1)
 position = Vector2(48.75, 49.25)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_vyirb")
+texture = ExtResource("23_3hkw0")
 
 [node name="Plays Text" type="Label" parent="UI"]
 layout_mode = 0
@@ -349,7 +354,7 @@ label_settings = SubResource("LabelSettings_oatni")
 modulate = Color(0.707177, 0.487233, 0.360996, 1)
 position = Vector2(62.75, 165.25)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_r4mkl")
+texture = ExtResource("24_38jum")
 
 [node name="Swaps Text" type="Label" parent="UI"]
 layout_mode = 0
@@ -362,38 +367,46 @@ label_settings = SubResource("LabelSettings_oatni")
 
 [node name="Rules" type="Node2D" parent="UI"]
 
+[node name="The Golden Rule" type="Label" parent="UI/Rules"]
+offset_left = 1557.0
+offset_top = 5.0
+offset_right = 1807.0
+offset_bottom = 86.0
+text = "The Golden Rule"
+label_settings = SubResource("LabelSettings_nw8x4")
+
 [node name="Infusion2" type="Sprite2D" parent="UI/Rules"]
 modulate = Color(0.705882, 0.486275, 0.360784, 1)
-position = Vector2(1837, 26)
+position = Vector2(1838, 70.125)
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("11_yl3pw")
+texture = ExtResource("21_12r5x")
 
-[node name="Metal" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1679, 27)
+[node name="Metal" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1680, 73)
 scale = Vector2(0.5, 0.5)
 
-[node name="Metal2" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1731, 25)
+[node name="Metal2" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1733, 73)
 scale = Vector2(0.5, 0.5)
 metal_type = "Iron"
 
-[node name="Metal3" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1782, 24)
+[node name="Metal3" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1783, 75)
 scale = Vector2(0.5, 0.5)
 metal_type = "Copper"
 
-[node name="Metal4" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1574, 29)
+[node name="Metal4" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1575, 73.125)
 scale = Vector2(0.5, 0.5)
 metal_type = "Copper"
 
-[node name="Metal5" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1626, 29)
+[node name="Metal5" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1627, 73.125)
 scale = Vector2(0.5, 0.5)
 metal_type = "Silver"
 
-[node name="Metal6" parent="UI/Rules" instance=ExtResource("25_wqlj0")]
-position = Vector2(1891, 25)
+[node name="Metal6" parent="UI/Rules" instance=ExtResource("25_3vxin")]
+position = Vector2(1892, 73)
 scale = Vector2(0.5, 0.5)
 metal_type = "Gold"
 
